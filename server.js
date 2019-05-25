@@ -12,30 +12,32 @@ var HTTPSPORT = 443
 
 var app = express();
 
-app.use(function(req, res, next)){
-	validateUser(req, function(userID){
+app.use(express.static("public"))
+
+app.get('/login', function (req, res){
+	
+	auth.loginUser(req, res)
+	
+})
+
+app.use(function(req, res, next){
+	auth.validateUser(req, function(userID){
 		res.locals.userID = userID;
 		next();
 	})
 })
 
-app.get('/login', function (req, res){
-	
-	loginUser(req, res)
-	
-})
-
 app.get('/logout', function (req, res){
 	
-	logoutUser(req, res)
+	auth.logoutUser(req, res)
 	
 })
 
 app.get('/signup', function (req, res){
 	
-	signupUser(req, res)
+	auth.signupUser(req, res)
 	
 })
 
 var httpServer = http.createServer(app)
-server.listen(HTTPPORT)
+httpServer.listen(HTTPPORT)

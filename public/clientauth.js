@@ -5,12 +5,13 @@
 // Returns: calls callback with (userID) or (undefined)
 // if login fails
 function loginUser(username, password, callback){
+	console.log("Processing login request")
 	$.ajax({
 		type: "GET",
 		url: "/login",
 		headers: {
 			"Authorization": "Basic " + btoa(username + ":" + password)
-		}
+		},
 		success: function(){
 			
 			callback();
@@ -20,12 +21,12 @@ function loginUser(username, password, callback){
 	})
 }
 
-// Takes a userID and logs the user out
-// This invalidates there login token
-// Args: userID, callback
+// Logs out the user who is registered in the cookies
+// and logs the user out. This invalidates their login token
+// Args: callback
 // Returns: calls callback() with no argument
-function logoutUser(userID, callback){
-	
+function logoutUser(callback){
+	console.log("Processing logout request")
 	callback();
 }
 
@@ -35,6 +36,6 @@ function logoutUser(userID, callback){
 // Returns: calls callback with (userID) or (undefined) if 
 // signup fails
 function signupUser(username, password){
-	
+	console.log("Processing signup request")
 	callback();
 }
