@@ -4,7 +4,7 @@
 // Args: username, password, callback
 // Returns: calls callback with (userID) or (undefined)
 // if login fails
-function loginUser(username, password, callback){
+async function loginUser(username, password, callback){
 	console.log("Processing login request")
 	$.ajax({
 		type: "GET",
@@ -25,8 +25,20 @@ function loginUser(username, password, callback){
 // and logs the user out. This invalidates their login token
 // Args: callback
 // Returns: calls callback() with no argument
-function logoutUser(callback){
+async function logoutUser(callback){
 	console.log("Processing logout request")
+	
+	$.ajax({
+		type: "GET",
+		url: "/logout",
+		success: function(){
+			
+			callback();
+			
+		}
+		
+	})
+	
 	callback();
 }
 
@@ -35,7 +47,22 @@ function logoutUser(callback){
 // Args: username, password
 // Returns: calls callback with (userID) or (undefined) if 
 // signup fails
-function signupUser(username, password){
+async function signupUser(username, password){
 	console.log("Processing signup request")
+	
+	$.ajax({
+		type: "GET",
+		url: "/signup",
+		headers: {
+			"Authorization": "Basic " + btoa(username + ":" + password)
+		},
+		success: function(){
+			
+			callback();
+			
+		}
+		
+	})
+	
 	callback();
 }
