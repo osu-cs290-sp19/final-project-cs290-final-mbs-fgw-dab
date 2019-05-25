@@ -5,8 +5,19 @@
 // Returns: calls callback with (userID) or (undefined)
 // if login fails
 function loginUser(username, password, callback){
-	
-	callback();
+	$.ajax({
+		type: "GET",
+		url: "/login",
+		headers: {
+			"Authorization": "Basic " + btoa(username + ":" + password)
+		}
+		success: function(){
+			
+			callback();
+			
+		}
+		
+	})
 }
 
 // Takes a userID and logs the user out
