@@ -4,7 +4,7 @@
 // Args: username, password, callback
 // Returns: calls callback with (userID) or (undefined)
 // if login fails
-async function loginUser(username, password, callback){
+async function loginUser(username, password, callback, err){
 	console.log("Processing login request")
 	$.ajax({
 		type: "GET",
@@ -16,7 +16,11 @@ async function loginUser(username, password, callback){
 			
 			callback();
 			
+		},
+		error: function(xhr, error){
+			err()
 		}
+		
 		
 	})
 }
@@ -33,13 +37,23 @@ async function logoutUser(callback){
 		url: "/logout",
 		success: function(){
 			
+			Cookies.remove('username')
+			Cookies.remove('userID')
+			Cookies.remove('token')
+			
 			callback();
 			
+		},
+		err: function(){
+			
+			// Not sure what to do here
+			// I don't think there needs to be a separate error handler
+			// for logging out
+			// So for now I just call callback()
+			callback()
 		}
 		
 	})
-	
-	callback();
 }
 
 // Takes a username and password, then creates an account
@@ -47,7 +61,7 @@ async function logoutUser(callback){
 // Args: username, password
 // Returns: calls callback with (userID) or (undefined) if 
 // signup fails
-async function signupUser(username, password){
+async function signupUser(username, password, callback, err){
 	console.log("Processing signup request")
 	
 	$.ajax({
@@ -60,9 +74,10 @@ async function signupUser(username, password){
 			
 			callback();
 			
+		},
+		error: function(xhr, error){
+			err();
 		}
 		
 	})
-	
-	callback();
 }

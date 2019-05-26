@@ -7,6 +7,18 @@ var users = {}
 var usernameReverseLookup = {}
 var currID = 1;
 
+function getExpiry(){
+	var expiry = new Date();
+	expiry.setHours(expiry.getHours() + 1);
+	return expiry;
+}
+
+function validUsername(username){
+	if (username.length < 3) return false;
+	
+	return true;
+}
+
 function newUser(username, passwordHash){
 	var newID = currID
 	currID ++;
@@ -31,7 +43,7 @@ function addToken(userID, token){
 }
 
 function removeToken(userID){
-	
+	delete tokens.userID;
 }
 
 function getToken(userID){
@@ -45,16 +57,15 @@ async function newSession(userID, callback){
 	var token = new Buffer(crypto.randomBytes(32)).toString('base64');
 	
 	var startDate = new Date();
-	
-	var endDate = new Date();
-	endDate.setHours(endDate.getHours() + 1); // 1 hour expiry
+	 // 1 hour expiry
+	var endDate = getExpiry();
 	
 	bcrypt.genSalt(12, function(err, salt){
 		bcrypt.hash(token, salt, function(err, hash){
 			
 			console.log(err)
 			
-			var clientToken = token
+			var clientToken = {token: token, expires: endDate}
 			var serverToken = {userID: userID, token: hash, startDate: startDate, endDate: endDate}
 			
 			// TODO: Permanent solution for token storage
@@ -82,25 +93,19 @@ async function validateUser(req, callback){
 				var date = new Date();
 				
 				if (date < serverToken.startDate || date > serverToken.endDate){
-					console.log("Auth Token Expired")
 					removeToken(userID)
 					
 					callback(-1)
 				}
 				
 				// If the token is good and the date is good, we are good
-				console.log("Auth Data Good")
 				callback(userID)
 				
 			}else{
-				console.log("Auth Token Incorrect")
 				callback(-1)
 			}
 		})
 	}else{
-		
-		console.log("Auth Data Missing")
-
 		callback(-1)
 	}
 }
@@ -110,8 +115,6 @@ async function loginUser(req, res){
 	var username = uncoded.split(':')[0]
 	var password = uncoded.split(':')[1]
 	
-	// TEMP FOR TESTING
-	
 	if (username in usernameReverseLookup){
 		var user = getUserByUsername(username)
 		var userID = user.userID;
@@ -119,10 +122,11 @@ async function loginUser(req, res){
 			
 			if (correct){
 			
-				newSession(userID, function(token){
+				newSession(userID, function(session){
 				
-					res.cookie("userID", userID);
-					res.cookie("token", token);
+					res.cookie("userID", userID, {expires: session.expires, path: '/'});
+					res.cookie("username", username, {expires: session.expires, path: '/'})
+					res.cookie("token", session.token, {expires: session.expires, path: '/'});
 					res.writeHead(200);
 					res.end();
 					
@@ -143,31 +147,42 @@ async function loginUser(req, res){
 }
 
 async function logoutUser(req, res){
-	console.log("Processing logout request")
-	
-	console.log(users)
-	console.log(tokens)
-	
 	var userID = res.locals.userID
 	
-	if (userID in tokens){
+	if (userID == -1){
+		// Fail fast
+		res.writeHead(401);
+		res.end();
+	}else if (userID in tokens){
 		removeToken(userID)
+		
+		res.writeHead(200);
+		res.end()
+	}else{
+		res.writeHead(401)
+		res.end()
 	}
 }
 
 async function signupUser(req, res){
-	console.log("Processing signup request")
 	var uncoded = new Buffer(req.headers.authorization.split(' ')[1], 'base64').toString('ascii')
 	var username = uncoded.split(':')[0]
 	var password = uncoded.split(':')[1]
 	
-	bcrypt.genSalt(12, function(err, salt){
-		bcrypt.hash(password, salt, function(err, hash){
-		
-			newUser(username, hash)
+	if (username in usernameReverseLookup || !validUsername(username)){
+		res.writeHead(409)
+		res.end();
+	}else{
+		bcrypt.genSalt(12, function(err, salt){
+			bcrypt.hash(password, salt, function(err, hash){
 			
+				newUser(username, hash)
+				
+				loginUser(req, res)
+				
+			})
 		})
-	})
+	}
 }
 
 module.exports = {
