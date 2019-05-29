@@ -81,3 +81,11 @@ async function signupUser(username, password, callback, err){
 		
 	})
 }
+
+function getUsername(){
+	return Cookies.get("username")
+}
+
+function getUserID(){
+	return Cookies.get("userID")
+}

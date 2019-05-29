@@ -17,3 +17,13 @@ Things for me to do:
 -answer any questions you all have about the html
 -more stuff I'm forgetting
 ~Deven
+
+
+Important note from Matthew:
+To use the client-side portion of the authentication code, these includes are required in the header
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="/clientauth.js" charset="utf-8"></script>
+
+I added these to index.html

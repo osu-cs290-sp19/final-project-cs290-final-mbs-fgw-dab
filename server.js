@@ -24,6 +24,12 @@ app.get('/login', function (req, res){
 	
 })
 
+app.get('/signup', function (req, res){
+	
+	auth.signupUser(req, res)
+	
+})
+
 app.use(function(req, res, next){
 	auth.validateUser(req, function(userID){
 		console.log("User: " + userID)
@@ -35,12 +41,6 @@ app.use(function(req, res, next){
 app.get('/logout', function (req, res){
 	
 	auth.logoutUser(req, res)
-	
-})
-
-app.get('/signup', function (req, res){
-	
-	auth.signupUser(req, res)
 	
 })
 
