@@ -50,13 +50,15 @@ function getToken(userID){
 
 async function newSession(userID, callback){
 	// Generate a new session for this user
-	var token = new Buffer(crypto.randomBytes(32)).toString('base64');
+	var token = new Buffer(crypto.randomBytes(64)).toString('base64');
 	
 	var startDate = new Date();
 	 // 1 hour expiry
 	var endDate = getExpiry();
 	
-	bcrypt.genSalt(12, function(err, salt){
+	// Only 8 rounds because its a token not a password + rainbow table non-viable due to randomness of tokens
+	// Also it improves the responsiveness of the website and using bcrypt is already quite overkill
+	bcrypt.genSalt(8, function(err, salt){
 		bcrypt.hash(token, salt, function(err, hash){
 			
 			console.log(err)

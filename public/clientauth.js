@@ -1,9 +1,8 @@
 
 // Takes a username and a password, then logs the user in
 // (creates valid user authentication token)
-// Args: username, password, callback
-// Returns: calls callback with (userID) or (undefined)
-// if login fails
+// Args: username, password, callback, err
+// Returns: calls callback(userID) or calls err() if login fails
 async function loginUser(username, password, callback, err){
 	console.log("Processing login request")
 	$.ajax({
@@ -58,9 +57,8 @@ async function logoutUser(callback){
 
 // Takes a username and password, then creates an account
 // using those credentials, in addition to logging them in
-// Args: username, password
-// Returns: calls callback with (userID) or (undefined) if 
-// signup fails
+// Args: username, password, callback, err
+// Returns: calls callback(userID) or calls err() if signup fails
 async function signupUser(username, password, callback, err){
 	console.log("Processing signup request")
 	
@@ -76,7 +74,6 @@ async function signupUser(username, password, callback, err){
 			
 		},
 		error: function(xhr, error){
-			console.log(xhr)
 			err();
 		}
 		
