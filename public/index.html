@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>NAME_OF_PAGE</title>
+    <link rel="stylesheet" href="/style.css" media="screen">
+    <script src="/index.js" charset="utf-8" defer></script>
+  </head>
+
+  <body>
+
+    <header>
+      <h1 class="title">NAME_OF_PAGE</h1>
+
+      <nav class="menubar">
+        <ul class="menulist">
+          <li class="menuitem"><a href="#">Ask A Question</a></li>
+          <li class="menuitem"><a href="#">Login</a></li>
+          <li class="menuitem"><a href="#">Create Account</a></li>
+          <li class="menusearch">
+            <input type="text" id="menusearchtext" placeholder="Search Questions...">
+            <button type="button" id="menusearchbutton"><i class="fas fa-search"></i></button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="questionbox">
+
+      <article class="question">
+          <div class="questioncontent">
+          <p class="questiontext">
+            Welcome to NAME_OF_PAGE!
+          </p>
+          <p class="questionauthor">
+            The NAME_OF_PAGE Team
+          </p>
+	    <button type="button" class="windowanswer">Answer</button>
+        </div>
+		<article class="reply">
+		<div class="replycontent">
+		<p class="replytext">
+			Login or create an account to start asking questions.
+		</p>
+		</div>
+		</article>
+			
+      </article>
+
+    </main>
+    
+    <main class="window">
+
+	<article class="questionwindow">
+      <div id="windowbg" class="hidden"></div>
+      <div id="windowmain" class="hidden">
+        <div class="windowdialog">
+  
+          <div class="windowhead">
+            <h3>Ask A Question</h3>
+          </div>
+          <div class="windowtext">
+            <div class="windowinputelement">
+              <label for="windowtext">Question</label>
+              <textarea id="windowtext"></textarea>
+            </div>
+          </div>
+          <div class="windowfoot">
+            <button type="button" class="windowcancel">Cancel</button>
+            <button type="button" class="windowsubmit">Submit</button>
+          </div>
+
+        </div>
+      </div>
+	</article>
+
+	<article class="createwindow">
+      <div id="windowbg" class="hidden"></div>
+      <div id="windowmain" class="hidden">
+        <div class="windowdialog">
+          <div class="windowhead">
+            <h3>Create Account</h3>
+          </div>
+          <div class="windowtext">
+            <div class="windowinputelement">
+              <label for="createwindowusername">Username</label>
+              <textarea id="createwindowusername"></textarea>
+            </div>
+            <div class="windowinputelement">
+              <label for="createwindowpassword">Password</label>
+              <input type="text" id="createwindowpassword">
+            </div>
+          </div>
+          <div class="windowfoot">
+            <button type="button" class="windowcancel">Cancel</button>
+            <button type="button" class="windowsubmit">Submit</button>
+          </div>
+
+        </div>
+      </div>
+	</article>
+
+	<article class="loginwindow">
+      <div id="windowbg" class="hidden"></div>
+      <div id="windowmain" class="hidden">
+        <div class="windowdialog">
+          <div class="windowhead">
+            <h3>Login</h3>
+          </div>
+          <div class="windowtext">
+            <div class="windowinputelement">
+              <label for="loginwindowusername">Username</label>
+              <textarea id="loginwindowusername"></textarea>
+            </div>
+            <div class="windowinputelement">
+              <label for="loginwindowpassword">Password</label>
+              <input type="text" id="loginwindowpassword">
+            </div>
+          </div>
+          <div class="windowfoot">
+            <button type="button" class="windowcancel">Cancel</button>
+            <button type="button" class="windowsubmit">Submit</button>
+          </div>
+
+        </div>
+      </div>
+	</article>
+
+
+	</main>
+    </body>
+
+</html>
