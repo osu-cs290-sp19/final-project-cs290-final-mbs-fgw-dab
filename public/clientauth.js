@@ -76,6 +76,7 @@ async function signupUser(username, password, callback, err){
 			
 		},
 		error: function(xhr, error){
+			console.log(xhr)
 			err();
 		}
 		

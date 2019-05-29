@@ -32,10 +32,8 @@ function getUserByID(userID){
 	return users[userID]
 }
 
-function getUserByUsername(username){
-	var userID = usernameReverseLookup[username]
-	
-	return getUserByID(userID)
+function getUserIDByUsername(username){
+	return usernameReverseLookup[username]
 }
 
 function addToken(userID, token){
@@ -49,8 +47,6 @@ function removeToken(userID){
 function getToken(userID){
 	return tokens[userID]
 }
-
-// Takes a 
 
 async function newSession(userID, callback){
 	// Generate a new session for this user
@@ -68,7 +64,6 @@ async function newSession(userID, callback){
 			var clientToken = {token: token, expires: endDate}
 			var serverToken = {userID: userID, token: hash, startDate: startDate, endDate: endDate}
 			
-			// TODO: Permanent solution for token storage
 			addToken(userID, serverToken);
 			
 			callback(clientToken)
@@ -87,15 +82,14 @@ async function validateUser(req, callback){
 	if (serverToken != undefined && userID != undefined && token != undefined){
 		bcrypt.compare(token, serverToken.token, function(err, correct){
 			if (correct){
-				
-				// Check everything else
-				
+
 				var date = new Date();
 				
 				if (date < serverToken.startDate || date > serverToken.endDate){
 					removeToken(userID)
 					
 					callback(-1)
+					return;
 				}
 				
 				// If the token is good and the date is good, we are good
@@ -103,10 +97,12 @@ async function validateUser(req, callback){
 				
 			}else{
 				callback(-1)
+				return;
 			}
 		})
 	}else{
 		callback(-1)
+		return;
 	}
 }
 
@@ -115,9 +111,12 @@ async function loginUser(req, res){
 	var username = uncoded.split(':')[0]
 	var password = uncoded.split(':')[1]
 	
-	if (username in usernameReverseLookup){
-		var user = getUserByUsername(username)
-		var userID = user.userID;
+	var userID = getUserIDByUsername(username)
+	
+	if (userID != undefined){
+		
+		var user = getUserByID(userID)
+		
 		bcrypt.compare(password, user.password, function(err, correct){
 			
 			if (correct){
@@ -169,7 +168,9 @@ async function signupUser(req, res){
 	var username = uncoded.split(':')[0]
 	var password = uncoded.split(':')[1]
 	
-	if (username in usernameReverseLookup || !validUsername(username)){
+	var usernameUsed = undefined != getUserIDByUsername(username);
+	
+	if (usernameUsed || !validUsername(username)){
 		res.writeHead(409)
 		res.end();
 	}else{
@@ -178,6 +179,8 @@ async function signupUser(req, res){
 			
 				newUser(username, hash)
 				
+				// Don't know if we should do this; currently try to login,
+
 				loginUser(req, res)
 				
 			})
