@@ -27,3 +27,8 @@ To use the client-side portion of the authentication code, these includes are re
 <script src="/clientauth.js" charset="utf-8"></script>
 
 I added these to index.html
+
+Note about MongoDB
+
+To run the server now that it depends on MongoDB, you need to have the mongodb server running
+in the background. You shouldn't need to do any setup besides starting the mongodb server

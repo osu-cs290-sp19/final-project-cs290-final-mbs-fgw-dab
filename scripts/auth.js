@@ -2,6 +2,9 @@
 var crypto = require('crypto')
 var bcrypt = require('bcrypt')
 
+var mongo = require('./mongodb')
+var mongobase = require('mongodb')
+
 var tokens = {}
 var users = {}
 var usernameReverseLookup = {}
@@ -19,33 +22,70 @@ function validUsername(username){
 	return true;
 }
 
-function newUser(username, passwordHash){
-	var newID = currID
-	currID ++;
+async function newUser(username, passwordHash, callback){
 	
-	users[newID] = {userID: newID, username: username, password: passwordHash};
+	var newUser = {username: username, password: passwordHash}
 	
-	usernameReverseLookup[username] = newID
+	mongo.getDB().collection("users").insertOne(newUser, function(err, doc){
+		if (err == undefined){
+			console.log("New user registered: " + username)
+			callback(undefined)
+		}else{
+			console.log("An error has occured during user registration")
+			console.log(err)
+			callback(err)
+		}
+	})
 }
 
-function getUserByID(userID){
-	return users[userID]
+async function getUserByID(userID, callback){
+	mongo.getDB().collection("users").findOne({_id: userID}, function(err, doc){
+		if (!err){		
+			callback(doc)
+		}else{
+			callback(undefined)
+		}
+	})
 }
 
-function getUserIDByUsername(username){
-	return usernameReverseLookup[username]
+async function getUserByUsername(username, callback){
+	mongo.getDB().collection("users").findOne({username: username}, function(err, doc){
+		if (!err){		
+			callback(doc)
+		}else{
+			callback(undefined)
+		}
+	})
 }
 
-function addToken(userID, token){
-	tokens[userID] = token
+async function addToken(userID, token){
+	var newToken = {userID: userID, token: token}
+	
+	mongo.getDB().collection("tokens").insertOne(newToken, function(err, doc){
+		if (err){
+			console.log("An error occured while storing a token for userID = " + String(userID))
+		}
+	})
 }
 
-function removeToken(userID){
-	delete tokens.userID;
+async function removeToken(userID, callback){
+	mongo.getDB().collection("tokens").deleteMany({userID: userID}, function(err, doc){
+		if (err){
+			callback()
+		}else{
+			callback()
+		}
+	})
 }
 
-function getToken(userID){
-	return tokens[userID]
+async function getToken(userID, callback){
+	mongo.getDB().collection("tokens").findOne({userID: mongobase.ObjectID(userID)}, function(err, doc){
+		if (err == null && doc != null){		
+			callback(doc.token)
+		}else{
+			callback(undefined)
+		}
+	})
 }
 
 async function newSession(userID, callback){
@@ -61,8 +101,6 @@ async function newSession(userID, callback){
 	bcrypt.genSalt(8, function(err, salt){
 		bcrypt.hash(token, salt, function(err, hash){
 			
-			console.log(err)
-			
 			var clientToken = {token: token, expires: endDate}
 			var serverToken = {userID: userID, token: hash, startDate: startDate, endDate: endDate}
 			
@@ -74,38 +112,37 @@ async function newSession(userID, callback){
 }
 
 async function validateUser(req, callback){
-	console.log(tokens)
-	
 	var userID = req.cookies.userID
 	var token = req.cookies.token;
 	
-	var serverToken = getToken(userID)
+	getToken(userID, function(serverToken){
 	
-	if (serverToken != undefined && userID != undefined && token != undefined){
-		bcrypt.compare(token, serverToken.token, function(err, correct){
-			if (correct){
+		if (serverToken != undefined && userID != undefined && token != undefined){
+			bcrypt.compare(token, serverToken.token, function(err, correct){
+				if (correct){
 
-				var date = new Date();
-				
-				if (date < serverToken.startDate || date > serverToken.endDate){
-					removeToken(userID)
+					var date = new Date();
 					
+					if (date < serverToken.startDate || date > serverToken.endDate){
+						removeToken(userID, function(){})
+						
+						callback(-1)
+						return;
+					}
+					
+					// If the token is good and the date is good, we are good
+					callback(userID)
+					
+				}else{
 					callback(-1)
 					return;
 				}
-				
-				// If the token is good and the date is good, we are good
-				callback(userID)
-				
-			}else{
-				callback(-1)
-				return;
-			}
-		})
-	}else{
-		callback(-1)
-		return;
-	}
+			})
+		}else{
+			callback(-1)
+			return;
+		}
+	})
 }
 
 async function loginUser(req, res){
@@ -113,38 +150,43 @@ async function loginUser(req, res){
 	var username = uncoded.split(':')[0]
 	var password = uncoded.split(':')[1]
 	
-	var userID = getUserIDByUsername(username)
-	
-	if (userID != undefined){
-		
-		var user = getUserByID(userID)
-		
-		bcrypt.compare(password, user.password, function(err, correct){
+	getUserByUsername(username, function(user){
+
+		if (user != undefined){
+
+			var userID = user._id;
 			
-			if (correct){
-			
-				newSession(userID, function(session){
+			bcrypt.compare(password, user.password, function(err, correct){
 				
-					res.cookie("userID", userID, {expires: session.expires, path: '/'});
-					res.cookie("username", username, {expires: session.expires, path: '/'})
-					res.cookie("token", session.token, {expires: session.expires, path: '/'});
-					res.writeHead(200);
+				if (correct){
+					
+					removeToken(userID, function(){
+				
+						newSession(userID, function(session){
+						
+							res.cookie("userID", userID, {expires: session.expires, path: '/'});
+							res.cookie("username", username, {expires: session.expires, path: '/'})
+							res.cookie("token", session.token, {expires: session.expires, path: '/'});
+							res.writeHead(200);
+							res.end();
+							
+						})
+						
+					})
+				}else{
+					
+					res.writeHead(401);
 					res.end();
 					
-				})
-			}else{
-				
-				res.writeHead(401);
-				res.end();
-				
-			}
-				
-		})
-		
-	}else{
-		res.writeHead(401)
-		res.end()
-	}
+				}
+					
+			})
+			
+		}else{
+			res.writeHead(401)
+			res.end()
+		}
+	})
 }
 
 async function logoutUser(req, res){
@@ -152,16 +194,13 @@ async function logoutUser(req, res){
 	
 	if (userID == -1){
 		// Fail fast
+		console.log("User not logged in")
 		res.writeHead(401);
 		res.end();
-	}else if (userID in tokens){
-		removeToken(userID)
-		
-		res.writeHead(200);
-		res.end()
 	}else{
-		res.writeHead(401)
-		res.end()
+		removeToken(userID, function(){})
+		res.writeHead(200)
+		res.end();
 	}
 }
 
@@ -170,24 +209,27 @@ async function signupUser(req, res){
 	var username = uncoded.split(':')[0]
 	var password = uncoded.split(':')[1]
 	
-	var usernameUsed = undefined != getUserIDByUsername(username);
+	getUserByUsername(username, function(user){
 	
-	if (usernameUsed || !validUsername(username)){
-		res.writeHead(409)
-		res.end();
-	}else{
-		bcrypt.genSalt(12, function(err, salt){
-			bcrypt.hash(password, salt, function(err, hash){
-			
-				newUser(username, hash)
+		var usernameUsed = user != undefined;
+		
+		if (usernameUsed || !validUsername(username)){
+			res.writeHead(409)
+			res.end();
+		}else{
+			bcrypt.genSalt(12, function(err, salt){
+				bcrypt.hash(password, salt, function(err, hash){
 				
-				// Don't know if we should do this; currently try to login,
+					newUser(username, hash, function(){
+						// Don't know if we should do this; currently try to login,
 
-				loginUser(req, res)
-				
+						loginUser(req, res)
+					})
+					
+				})
 			})
-		})
-	}
+		}
+	})
 }
 
 module.exports = {

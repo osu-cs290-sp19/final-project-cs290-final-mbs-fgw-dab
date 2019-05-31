@@ -31,27 +31,19 @@ async function loginUser(username, password, callback, err){
 async function logoutUser(callback){
 	console.log("Processing logout request")
 	
-	$.ajax({
-		type: "POST",
-		url: "/logout",
-		success: function(){
-			
-			Cookies.remove('username')
-			Cookies.remove('userID')
-			Cookies.remove('token')
-			
-			callback();
-			
-		},
-		err: function(){
-			
-			// Not sure what to do here
-			// I don't think there needs to be a separate error handler
-			// for logging out
-			// So for now I just call callback()
-			callback()
-		}
+	var req = $.ajax({
 		
+		type: "POST",
+		url: "/logout"
+		
+	})
+	
+	req.always(function(){
+		Cookies.remove('username')
+		Cookies.remove('userID')
+		Cookies.remove('token')
+		
+		callback()
 	})
 }
 
