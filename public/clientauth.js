@@ -6,7 +6,7 @@
 async function loginUser(username, password, callback, err){
 	console.log("Processing login request")
 	$.ajax({
-		type: "GET",
+		type: "POST",
 		url: "/login",
 		headers: {
 			"Authorization": "Basic " + btoa(username + ":" + password)
@@ -32,7 +32,7 @@ async function logoutUser(callback){
 	console.log("Processing logout request")
 	
 	$.ajax({
-		type: "GET",
+		type: "POST",
 		url: "/logout",
 		success: function(){
 			
@@ -63,7 +63,7 @@ async function signupUser(username, password, callback, err){
 	console.log("Processing signup request")
 	
 	$.ajax({
-		type: "GET",
+		type: "POST",
 		url: "/signup",
 		headers: {
 			"Authorization": "Basic " + btoa(username + ":" + password)

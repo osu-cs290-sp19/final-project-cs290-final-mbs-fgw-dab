@@ -18,13 +18,13 @@ app.use(cookieParser())
 
 app.use(express.static("public"))
 
-app.get('/login', function (req, res){
+app.post('/login', function (req, res){
 	
 	auth.loginUser(req, res)
 	
 })
 
-app.get('/signup', function (req, res){
+app.post('/signup', function (req, res){
 	
 	auth.signupUser(req, res)
 	
@@ -38,7 +38,7 @@ app.use(function(req, res, next){
 	})
 })
 
-app.get('/logout', function (req, res){
+app.post('/logout', function (req, res){
 	
 	auth.logoutUser(req, res)
 	
