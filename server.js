@@ -6,8 +6,10 @@ var https = require('https');
 var mongo = require('mongodb');
 
 var cookieParser = require('cookie-parser')
+var bodyParser = require('body-parser')
 
 var auth = require('./scripts/auth')
+var posts = require('./scripts/posts')
 var db = require('./scripts/mongodb')
 
 var HTTPPORT = 80
@@ -18,6 +20,7 @@ var database;
 var app = express();
 
 app.use(cookieParser())
+app.use(bodyParser.json())
 
 app.use(express.static("public"))
 
@@ -47,12 +50,8 @@ app.post('/logout', function (req, res){
 	
 })
 
-app.post('/new/question', function(req, res){
-	
-})
-
-app.post('/new/answer', function(req, res){
-	
+app.post('/new/:type', function(req, res){
+	posts.handleNew(req, res)
 })
 
 var httpServer = http.createServer(app)

@@ -39,7 +39,7 @@ async function newUser(username, passwordHash, callback){
 }
 
 async function getUserByID(userID, callback){
-	mongo.getDB().collection("users").findOne({_id: userID}, function(err, doc){
+	mongo.getDB().collection("users").findOne({_id: mongo.makeObjectID(userID)}, function(err, doc){
 		if (!err){		
 			callback(doc)
 		}else{
@@ -164,7 +164,7 @@ async function loginUser(req, res){
 				
 						newSession(userID, function(session){
 						
-							res.cookie("userID", userID, {expires: session.expires, path: '/'});
+							res.cookie("userID", userID.toString(), {expires: session.expires, path: '/'});
 							res.cookie("username", username, {expires: session.expires, path: '/'})
 							res.cookie("token", session.token, {expires: session.expires, path: '/'});
 							res.writeHead(200);

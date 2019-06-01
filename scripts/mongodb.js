@@ -13,7 +13,12 @@ function prepDatabase(url, database, callback){
 
 function getDB(){ return db; }
 
+function makeObjectID(string){
+	return mongo.ObjectID(string)
+}
+
 module.exports = {
 	preDatabase: prepDatabase,
-	getDB: getDB
+	getDB: getDB,
+	makeObjectID: makeObjectID
 }
