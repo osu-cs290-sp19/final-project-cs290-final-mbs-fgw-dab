@@ -204,9 +204,18 @@ async function handleGet(req, res){
 			}
 		})
 	}else{
+		
+		try {
+			var convertedID = mongo.makeObjectID(id)
+		} catch(e){
+			// If we get here, the ID is invalid
+			res.writeHead(400)
+			res.end()
+			return
+		}
 
 		if (req.params.type == 'q'){
-			mongo.getDB().collection('questions').findOne({'_id': mongo.makeObjectID(id)}, function(err, doc){
+			mongo.getDB().collection('questions').findOne({'_id': convertedID}, function(err, doc){
 				if (doc){
 					res.writeHead(200)
 					res.write(JSON.stringify(doc))
@@ -217,7 +226,7 @@ async function handleGet(req, res){
 				}
 			})
 		}else if (req.params.type == 'a'){
-			mongo.getDB().collection('answers').findOne({'_id': mongo.makeObjectID(id)}, function(err, doc){
+			mongo.getDB().collection('answers').findOne({'_id': convertedID}, function(err, doc){
 				if (doc){
 					res.writeHead(200)
 					res.write(JSON.stringify(doc))
