@@ -69,7 +69,7 @@ async function addToken(userID, token){
 }
 
 async function removeToken(userID, callback){
-	mongo.getDB().collection("tokens").deleteMany({userID: userID}, function(err, doc){
+	mongo.getDB().collection("tokens").deleteMany({userID: mongo.makeObjectID(userID)}, function(err, doc){
 		if (err){
 			callback()
 		}else{
@@ -79,7 +79,7 @@ async function removeToken(userID, callback){
 }
 
 async function getToken(userID, callback){
-	mongo.getDB().collection("tokens").findOne({userID: mongobase.ObjectID(userID)}, function(err, doc){
+	mongo.getDB().collection("tokens").findOne({userID: mongo.makeObjectID(userID)}, function(err, doc){
 		if (err == null && doc != null){		
 			callback(doc.token)
 		}else{
