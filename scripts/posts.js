@@ -44,16 +44,23 @@ async function handleQuestion(req, res){
 	}
 	
 	// Currently, we will just push this data to the database
-	
-	mongo.getDB().collection("questions").insertOne(newQuestion, function (err, doc){
-		if (err == null){
-			res.writeHead(200)
-			res.end()
+	mongo.lookupUsername(newQuestion.author, function(uname){
+		if (uname){
+			newQuestion.username = uname
+			mongo.getDB().collection("questions").insertOne(newQuestion, function (err, doc){
+				if (err == null){
+					res.writeHead(200)
+					res.end()
+				}else{
+					res.writeHead(500)
+					res.end()
+				}
+			})
 		}else{
-			res.writeHead(500)
+			res.writeHead(400)
 			res.end()
 		}
-	})
+	})	
 }
 
 async function handleAnswer(req, res){
@@ -72,29 +79,39 @@ async function handleAnswer(req, res){
 	mongo.getDB().collection("questions").findOne({_id: mongo.makeObjectID(req.body.parent)}, function(err1, doc1){
 		if (doc1){
 			// Success
-			mongo.getDB().collection("answers").insertOne(newAnswer, function (err2, doc2){
-				if (err2 == null){
+			mongo.lookupUsername(newAnswer.author, function(uname){
+				if (uname){
 					
-					mongo.getDB().collection("questions").updateOne({
-					_id: mongo.makeObjectID(req.body.parent)},
-					{
-						$push: {'answers': doc2.ops[0]._id}
-					},
-					function(err3, doc3){
-						
-						if (err3 != null){
+					newAnswer.username = uname
+					
+					mongo.getDB().collection("answers").insertOne(newAnswer, function (err2, doc2){
+						if (err2 == null){
+							
+							mongo.getDB().collection("questions").updateOne({
+							_id: mongo.makeObjectID(req.body.parent)},
+							{
+								$push: {'answers': doc2.ops[0]._id}
+							},
+							function(err3, doc3){
+								
+								if (err3 != null){
+									// Something is wrong with the server
+									res.writeHead(500)
+									res.end()
+								}else{
+									res.writeHead(200)
+									res.end()
+								}
+							})
+								
+						}else{
 							// Something is wrong with the server
 							res.writeHead(500)
 							res.end()
-						}else{
-							res.writeHead(200)
-							res.end()
 						}
 					})
-						
 				}else{
-					// Something is wrong with the server
-					res.writeHead(500)
+					res.writeHead(400)
 					res.end()
 				}
 			})
@@ -171,6 +188,54 @@ function customTypeOf(object){
 	}
 }
 
+async function handleGet(req, res){
+	var id = req.params.id
+	
+	if (id == "all"){
+		mongo.getDB().collection('questions').find({}).toArray(function(err, doc){
+			if (err){
+				res.writeHead(500)
+				res.end()
+			}else{
+				console.log(doc)
+				res.writeHead(200)
+				res.write(JSON.stringify(doc))
+				res.end();
+			}
+		})
+	}else{
+
+		if (req.params.type == 'q'){
+			mongo.getDB().collection('questions').findOne({'_id': mongo.makeObjectID(id)}, function(err, doc){
+				if (doc){
+					res.writeHead(200)
+					res.write(JSON.stringify(doc))
+					res.end()
+				}else{
+					res.writeHead(404)
+					res.end()
+				}
+			})
+		}else if (req.params.type == 'a'){
+			mongo.getDB().collection('answers').findOne({'_id': mongo.makeObjectID(id)}, function(err, doc){
+				if (doc){
+					res.writeHead(200)
+					res.write(JSON.stringify(doc))
+					res.end()
+				}else{
+					res.writeHead(404)
+					res.end()
+				}
+			})
+		}else{
+			res.writeHead(400)
+			res.end()
+		}
+	
+	}
+}
+
 module.exports = {
-	handleNew: handleNew
+	handleNew: handleNew,
+	handleGet: handleGet
 }

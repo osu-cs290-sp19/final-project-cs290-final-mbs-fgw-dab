@@ -17,8 +17,19 @@ function makeObjectID(string){
 	return mongo.ObjectID(string)
 }
 
+async function lookupUsername(userID, callback){
+	getDB().collection('users').findOne({_id: makeObjectID(userID)}, function(err, doc){
+		if (doc){
+			callback(doc.username)
+		}else{
+			callback(undefined)
+		}
+	})
+}
+
 module.exports = {
 	preDatabase: prepDatabase,
 	getDB: getDB,
-	makeObjectID: makeObjectID
+	makeObjectID: makeObjectID,
+	lookupUsername: lookupUsername
 }

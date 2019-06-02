@@ -54,6 +54,15 @@ app.post('/new/:type', function(req, res){
 	posts.handleNew(req, res)
 })
 
+app.get('/get/all', function(req, res){
+	req.params.id = 'all'
+	posts.handleGet(req, res)
+})
+
+app.get('/get/:type/:id', function(req, res){
+	posts.handleGet(req, res)
+})
+
 var httpServer = http.createServer(app)
 
 db.preDatabase("mongodb://localhost:27017/", "CS290", function(){
