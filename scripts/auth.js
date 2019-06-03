@@ -146,6 +146,13 @@ async function validateUser(req, callback){
 }
 
 async function loginUser(req, res){
+	
+	if (!req.secure){
+		// No logging in over insecure connections
+		sendUpgradeRequest(res)
+		return; // Exit early
+	}
+	
 	var uncoded = new Buffer(req.headers.authorization.split(' ')[1], 'base64').toString('ascii')
 	var username = uncoded.split(':')[0]
 	var password = uncoded.split(':')[1]
@@ -164,9 +171,9 @@ async function loginUser(req, res){
 				
 						newSession(userID, function(session){
 						
-							res.cookie("userID", userID.toString(), {expires: session.expires, path: '/'});
-							res.cookie("username", username, {expires: session.expires, path: '/'})
-							res.cookie("token", session.token, {expires: session.expires, path: '/'});
+							res.cookie("userID", userID.toString(), {secure: true, expires: session.expires, path: '/'});
+							res.cookie("username", username, {secure: true, expires: session.expires, path: '/'})
+							res.cookie("token", session.token, {secure: true, expires: session.expires, path: '/'});
 							res.writeHead(200);
 							res.end();
 							
@@ -230,6 +237,10 @@ async function signupUser(req, res){
 			})
 		}
 	})
+}
+
+function sendUpgradeRequest(res){
+	
 }
 
 module.exports = {
