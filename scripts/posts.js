@@ -189,15 +189,29 @@ function customTypeOf(object){
 }
 
 async function handleGet(req, res){
+	
+	var MAXRETURNEDRECORDS = 200
+	
 	var id = req.params.id
 	
 	if (id == "all"){
-		mongo.getDB().collection('questions').find({}).toArray(function(err, doc){
+		
+		var limit;
+		if (req.query.limit != undefined){
+			limit = Math.min(parseInt(req.query.limit), MAXRETURNEDRECORDS)
+		}else{
+			limit = 50;
+		}
+		
+		if (limit == 0){
+			limit = 50;
+		}
+		
+		mongo.getDB().collection('questions').find({}).limit(limit).toArray(function(err, doc){
 			if (err){
 				res.writeHead(500)
 				res.end()
 			}else{
-				console.log(doc)
 				res.writeHead(200)
 				res.write(JSON.stringify(doc))
 				res.end();
