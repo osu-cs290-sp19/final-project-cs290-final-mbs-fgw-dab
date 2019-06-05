@@ -2,9 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>NAME_OF_PAGE</title>
-    <link rel="stylesheet" href="/style.css" media="screen">
-    <script src="/index.js" charset="utf-8" defer></script>
+    <title>Pizza</title>
+    <link rel="stylesheet" href="style.css" media="screen">
+    <script src="index.js" charset="utf-8" defer></script>
 	
 	
 	<!-- Required to use authentication functions -->
@@ -18,13 +18,17 @@
   <body>
 
     <header>
-      <h1 class="title">NAME_OF_PAGE</h1>
+      <h1 class="title">Pizza</h1>
 
       <nav class="menubar">
         <ul class="menulist">
-          <li class="menuitem"><a href="#">Ask A Question</a></li>
-          <li class="menuitem"><a href="#">Login</a></li>
-          <li class="menuitem"><a href="#">Create Account</a></li>
+		<li class="menuitemyeslogin hidden">
+			<p>Logged in as </p>
+			<p>{{client}}</p>
+		</li>
+          <li class="menuitemyeslogin hidden"><button type="button" class="askbutton">Ask A Question</button></li>
+          <li class="menuitemnologin"><button type="button" class="loginbutton">Login</button></li>
+          <li class="menuitemnologin"><button type="button" class="createbutton">Create Account</button></li>
           <li class="menusearch">
             <input type="text" id="menusearchtext" placeholder="Search Questions...">
             <button type="button" id="menusearchbutton"><i class="fas fa-search"></i></button>
@@ -38,17 +42,29 @@
       <article class="question">
           <div class="questioncontent">
           <p class="questiontext">
-            Welcome to NAME_OF_PAGE!
+            Welcome to Pizza!
           </p>
           <p class="questionauthor">
-            The NAME_OF_PAGE Team
+            The Pizza Team
           </p>
 	    <button type="button" class="windowanswer">Answer</button>
         </div>
+
+		<article class="tag">
+		<div class="tagcontent">
+		<p class="tagtext">
+			welcome
+		</p>
+		</div>
+		</article>
+
 		<article class="reply">
 		<div class="replycontent">
 		<p class="replytext">
 			Login or create an account to start asking questions.
+		</p>
+		<p class="replyauthor">
+			The Pizza Team
 		</p>
 		</div>
 		</article>
@@ -57,9 +73,6 @@
 
     </main>
     
-    <main class="window">
-
-	<article class="questionwindow">
       <div id="windowbg" class="hidden"></div>
       <div id="windowmain" class="hidden">
         <div class="windowdialog">
@@ -72,19 +85,20 @@
               <label for="windowtext">Question</label>
               <textarea id="windowtext"></textarea>
             </div>
+	    <div class="windowinputelement">
+		<label for="windowtags">Tags</label>
+		<textarea id="windowtags"></textarea>
+	    </div>
           </div>
           <div class="windowfoot">
             <button type="button" class="windowcancel">Cancel</button>
             <button type="button" class="windowsubmit">Submit</button>
           </div>
-
         </div>
       </div>
-	</article>
 
-	<article class="createwindow">
-      <div id="windowbg" class="hidden"></div>
-      <div id="windowmain" class="hidden">
+      <div id="createwindowbg" class="hidden"></div>
+      <div id="createwindowmain" class="hidden">
         <div class="windowdialog">
           <div class="windowhead">
             <h3>Create Account</h3>
@@ -103,14 +117,11 @@
             <button type="button" class="windowcancel">Cancel</button>
             <button type="button" class="windowsubmit">Submit</button>
           </div>
-
         </div>
       </div>
-	</article>
 
-	<article class="loginwindow">
-      <div id="windowbg" class="hidden"></div>
-      <div id="windowmain" class="hidden">
+      <div id="loginwindowbg" class="hidden"></div>
+      <div id="loginwindowmain" class="hidden">
         <div class="windowdialog">
           <div class="windowhead">
             <h3>Login</h3>
@@ -129,13 +140,9 @@
             <button type="button" class="windowcancel">Cancel</button>
             <button type="button" class="windowsubmit">Submit</button>
           </div>
-
         </div>
       </div>
-	</article>
 
-
-	</main>
     </body>
 
 </html>
