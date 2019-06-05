@@ -53,13 +53,12 @@ app.post('/new/:type', function(req, res){
 	posts.handleNew(req, res)
 })
 
-app.get('/get/all', function(req, res){
-	req.params.id = 'all'
-	posts.handleGet(req, res)
+app.get('/get/:sorting', function(req, res){
+	posts.handleGetMany(req, res)
 })
 
 app.get('/get/:type/:id', function(req, res){
-	posts.handleGet(req, res)
+	posts.handleGetSingle(req, res)
 })
 
 // This section highly based on stackoverflow post:

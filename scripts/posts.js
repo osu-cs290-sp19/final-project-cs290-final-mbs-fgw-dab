@@ -188,77 +188,79 @@ function customTypeOf(object){
 	}
 }
 
-async function handleGet(req, res){
+async function handleGetMany(req, res){
 	
 	var MAXRETURNEDRECORDS = 200
 	
+	var sorting = req.params.sorting
+	
+	var limit;
+	if (req.query.limit != undefined){
+		limit = Math.min(parseInt(req.query.limit), MAXRETURNEDRECORDS)
+	}else{
+		limit = 50;
+	}
+	
+	if (limit == 0){
+		limit = 50;
+	}
+	
+	mongo.getDB().collection('questions').find({}).limit(limit).toArray(function(err, doc){
+		if (err){
+			res.writeHead(500)
+			res.end()
+		}else{
+			res.writeHead(200)
+			res.write(JSON.stringify(doc))
+			res.end();
+		}
+	})
+}
+
+async function handleGetSingle(req, res){
+	
 	var id = req.params.id
 	
-	if (id == "all"){
-		
-		var limit;
-		if (req.query.limit != undefined){
-			limit = Math.min(parseInt(req.query.limit), MAXRETURNEDRECORDS)
-		}else{
-			limit = 50;
-		}
-		
-		if (limit == 0){
-			limit = 50;
-		}
-		
-		mongo.getDB().collection('questions').find({}).limit(limit).toArray(function(err, doc){
-			if (err){
-				res.writeHead(500)
-				res.end()
-			}else{
+	try {
+		var convertedID = mongo.makeObjectID(id)
+	} catch(e){
+		// If we get here, the ID is invalid
+		res.writeHead(400)
+		res.end()
+		return
+	}
+
+	if (req.params.type == 'q'){
+		mongo.getDB().collection('questions').findOne({'_id': convertedID}, function(err, doc){
+			if (doc){
 				res.writeHead(200)
 				res.write(JSON.stringify(doc))
-				res.end();
+				res.end()
+			}else{
+				res.writeHead(404)
+				res.end()
+			}
+		})
+	}else if (req.params.type == 'a'){
+		mongo.getDB().collection('answers').findOne({'_id': convertedID}, function(err, doc){
+			if (doc){
+				res.writeHead(200)
+				res.write(JSON.stringify(doc))
+				res.end()
+			}else{
+				res.writeHead(404)
+				res.end()
 			}
 		})
 	}else{
-		
-		try {
-			var convertedID = mongo.makeObjectID(id)
-		} catch(e){
-			// If we get here, the ID is invalid
-			res.writeHead(400)
-			res.end()
-			return
-		}
-
-		if (req.params.type == 'q'){
-			mongo.getDB().collection('questions').findOne({'_id': convertedID}, function(err, doc){
-				if (doc){
-					res.writeHead(200)
-					res.write(JSON.stringify(doc))
-					res.end()
-				}else{
-					res.writeHead(404)
-					res.end()
-				}
-			})
-		}else if (req.params.type == 'a'){
-			mongo.getDB().collection('answers').findOne({'_id': convertedID}, function(err, doc){
-				if (doc){
-					res.writeHead(200)
-					res.write(JSON.stringify(doc))
-					res.end()
-				}else{
-					res.writeHead(404)
-					res.end()
-				}
-			})
-		}else{
-			res.writeHead(400)
-			res.end()
-		}
-	
+		res.writeHead(400)
+		res.end()
 	}
+	
 }
 
 module.exports = {
 	handleNew: handleNew,
-	handleGet: handleGet
+	handleGetSingle: handleGetSingle,
+	handleGetMany: handleGetMany
 }

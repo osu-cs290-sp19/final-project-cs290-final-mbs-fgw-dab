@@ -96,8 +96,8 @@ async function newSession(userID, callback){
 	 // 1 hour expiry
 	var endDate = getExpiry();
 	
-	// Only 8 rounds because its a token not a password + rainbow table non-viable due to randomness of tokens
-	// Also it improves the responsiveness of the website and using bcrypt is already quite overkill
+	// For protecting tokens, bcrypt is overkill, but I have it available so its what I'm using
+	// NOTE: Security StackExchange seems recommends SHA-256, much weaker than bcrypt with a difficult of 8
 	bcrypt.genSalt(8, function(err, salt){
 		bcrypt.hash(token, salt, function(err, hash){
 			
