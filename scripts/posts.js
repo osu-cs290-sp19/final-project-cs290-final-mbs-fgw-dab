@@ -217,10 +217,7 @@ async function handleGetMany(req, res){
 					allAnswerIDs.push(...doc[i].answers)
 				}
 				
-				console.log(allAnswerIDs)
-				
 				mongo.getDB().collection('answers').find({'_id' : {'$in': allAnswerIDs}}).toArray(function(err, results){
-					console.log(results)
 					var answers = {}
 					for (var i = 0; i < results.length; i++){
 						if (!answers[results[i].parent]){

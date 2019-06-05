@@ -5,11 +5,6 @@ var bcrypt = require('bcrypt')
 var mongo = require('./mongodb')
 var mongobase = require('mongodb')
 
-var tokens = {}
-var users = {}
-var usernameReverseLookup = {}
-var currID = 1;
-
 function getExpiry(){
 	var expiry = new Date();
 	expiry.setHours(expiry.getHours() + 1);
@@ -237,10 +232,6 @@ async function signupUser(req, res){
 			})
 		}
 	})
-}
-
-function sendUpgradeRequest(res){
-	
 }
 
 module.exports = {
