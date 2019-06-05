@@ -210,9 +210,39 @@ async function handleGetMany(req, res){
 			res.writeHead(500)
 			res.end()
 		}else{
-			res.writeHead(200)
-			res.write(JSON.stringify(doc))
-			res.end();
+			if (req.query.answers == "true"){
+				
+				var allAnswerIDs = [];
+				for (var i = 0; i < doc.length; i++){
+					allAnswerIDs.push(...doc[i].answers)
+				}
+				
+				console.log(allAnswerIDs)
+				
+				mongo.getDB().collection('answers').find({'_id' : {'$in': allAnswerIDs}}).toArray(function(err, results){
+					console.log(results)
+					var answers = {}
+					for (var i = 0; i < results.length; i++){
+						if (!answers[results[i].parent]){
+							answers[results[i].parent] = []
+						}
+						answers[results[i].parent].push(results[i])
+						
+					}
+					
+					for (var i = 0; i < doc.length; i++){
+						doc[i].answers = answers[doc[i]._id] ? answers[doc[i]._id] : [];
+					}
+					
+					res.writeHead(200)
+					res.write(JSON.stringify(doc))
+					res.end();
+				})
+			}else{
+				res.writeHead(200)
+				res.write(JSON.stringify(doc))
+				res.end();
+			}
 		}
 	})
 }
@@ -233,9 +263,24 @@ async function handleGetSingle(req, res){
 	if (req.params.type == 'q'){
 		mongo.getDB().collection('questions').findOne({'_id': convertedID}, function(err, doc){
 			if (doc){
-				res.writeHead(200)
-				res.write(JSON.stringify(doc))
-				res.end()
+				// Check if we want to load answers
+				if (req.query.answers == "true"){
+					
+					mongo.getDB().collection('answers').find({'_id' : {'$in': doc.answers}}).toArray(function(err, results){
+						console.log(results)
+						
+						doc.answers = results
+						
+						res.writeHead(200)
+						res.write(JSON.stringify(doc))
+						res.end()
+					})
+					
+				}else{
+					res.writeHead(200)
+					res.write(JSON.stringify(doc))
+					res.end()
+				}
 			}else{
 				res.writeHead(404)
 				res.end()
