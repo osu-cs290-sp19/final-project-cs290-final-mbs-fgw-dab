@@ -10,7 +10,8 @@ var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 
 var auth = require('./scripts/auth')
-var posts = require('./scripts/posts')
+var getHandlers = require('./scripts/gethandlers')
+var postHandlers = require('./scripts/posthandlers')
 var db = require('./scripts/mongodb')
 
 var HTTPPORT = 80
@@ -50,15 +51,15 @@ app.post('/logout', function (req, res){
 })
 
 app.post('/new/:type', function(req, res){
-	posts.handleNew(req, res)
+	postHandlers.handleNew(req, res)
 })
 
 app.get('/get/:sorting', function(req, res){
-	posts.handleGetMany(req, res)
+	getHandlers.handleGetMany(req, res)
 })
 
 app.get('/get/:type/:id', function(req, res){
-	posts.handleGetSingle(req, res)
+	getHandlers.handleGetSingle(req, res)
 })
 
 // This section highly based on stackoverflow post:

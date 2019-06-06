@@ -4,16 +4,11 @@ var mongo = require('./mongodb')
 async function handleNew(req, res){
 	var type = req.params.type
 	
-	console.log(req.body)
-	
 	if (res.locals.userID == -1 || !('author' in req.body) || req.body.author != res.locals.userID){
 		res.writeHead(401)
 		res.end()
-		
-		console.log("New message request but from logged out user")
+
 	}else{
-		
-		console.log("Request for /new/" + type)
 		
 		if (type == "question" && validQuestion(req)){
 			
@@ -141,10 +136,8 @@ function validQuestion(req){
 		var param = params[i]
 		
 		if (! param.name in body){
-			console.log("Parameter missing in request")
 			return false
 		}else if (customTypeOf(req.body[param.name]) != param.type){
-			console.log("Parameter incorrect type in request")
 			return false
 		}
 	}
@@ -167,10 +160,8 @@ function validAnswer(req){
 		var param = params[i]
 		
 		if (! param.name in body){
-			console.log("Parameter missing in request")
 			return false
 		}else if (customTypeOf(req.body[param.name]) != param.type){
-			console.log("Parameter incorrect type in request")
 			return false
 		}
 	}
@@ -188,121 +179,8 @@ function customTypeOf(object){
 	}
 }
 
-async function handleGetMany(req, res){
-	
-	var MAXRETURNEDRECORDS = 200
-	
-	var sorting = req.params.sorting
-	
-	var limit;
-	if (req.query.limit != undefined){
-		limit = Math.min(parseInt(req.query.limit), MAXRETURNEDRECORDS)
-	}else{
-		limit = 50;
-	}
-	
-	if (limit == 0){
-		limit = 50;
-	}
-	
-	mongo.getDB().collection('questions').find({}).limit(limit).toArray(function(err, doc){
-		if (err){
-			res.writeHead(500)
-			res.end()
-		}else{
-			if (req.query.answers == "true"){
-				
-				var allAnswerIDs = [];
-				for (var i = 0; i < doc.length; i++){
-					allAnswerIDs.push(...doc[i].answers)
-				}
-				
-				mongo.getDB().collection('answers').find({'_id' : {'$in': allAnswerIDs}}).toArray(function(err, results){
-					var answers = {}
-					for (var i = 0; i < results.length; i++){
-						if (!answers[results[i].parent]){
-							answers[results[i].parent] = []
-						}
-						answers[results[i].parent].push(results[i])
-						
-					}
-					
-					for (var i = 0; i < doc.length; i++){
-						doc[i].answers = answers[doc[i]._id] ? answers[doc[i]._id] : [];
-					}
-					
-					res.writeHead(200)
-					res.write(JSON.stringify(doc))
-					res.end();
-				})
-			}else{
-				res.writeHead(200)
-				res.write(JSON.stringify(doc))
-				res.end();
-			}
-		}
-	})
-}
 
-async function handleGetSingle(req, res){
-	
-	var id = req.params.id
-	
-	try {
-		var convertedID = mongo.makeObjectID(id)
-	} catch(e){
-		// If we get here, the ID is invalid
-		res.writeHead(400)
-		res.end()
-		return
-	}
-
-	if (req.params.type == 'q'){
-		mongo.getDB().collection('questions').findOne({'_id': convertedID}, function(err, doc){
-			if (doc){
-				// Check if we want to load answers
-				if (req.query.answers == "true"){
-					
-					mongo.getDB().collection('answers').find({'_id' : {'$in': doc.answers}}).toArray(function(err, results){
-						console.log(results)
-						
-						doc.answers = results
-						
-						res.writeHead(200)
-						res.write(JSON.stringify(doc))
-						res.end()
-					})
-					
-				}else{
-					res.writeHead(200)
-					res.write(JSON.stringify(doc))
-					res.end()
-				}
-			}else{
-				res.writeHead(404)
-				res.end()
-			}
-		})
-	}else if (req.params.type == 'a'){
-		mongo.getDB().collection('answers').findOne({'_id': convertedID}, function(err, doc){
-			if (doc){
-				res.writeHead(200)
-				res.write(JSON.stringify(doc))
-				res.end()
-			}else{
-				res.writeHead(404)
-				res.end()
-			}
-		})
-	}else{
-		res.writeHead(400)
-		res.end()
-	}
-	
-}
 
 module.exports = {
-	handleNew: handleNew,
-	handleGetSingle: handleGetSingle,
-	handleGetMany: handleGetMany
+	handleNew: handleNew
 }
