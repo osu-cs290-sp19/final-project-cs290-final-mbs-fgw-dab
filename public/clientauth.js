@@ -79,3 +79,7 @@ function getUsername(){
 function getUserID(){
 	return Cookies.get("userID")
 }
+
+function isUserLoggedIn(){
+	return Cookies.get("userID") != undefined;
+}
