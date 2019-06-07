@@ -3,12 +3,44 @@ var mongo = require('./mongodb')
 
 async function handleGetMany(req, res){
 	
+	var args = req.query
+	args.sorting = req.params.sorting
+	
+	getMany(args, function(data){
+		res.writeHead(200)
+		res.write(JSON.stringify(data))
+		res.end()
+	},
+	function(){
+		res.writeHead(400)
+		res.end()
+	})
+
+}
+
+async function handleGetSingle(req, res){
+	
+	var args = req.query;
+	args.type = req.params.type
+	
+	getSingle(req.params.id, args, function(data){
+		res.writeHead(200)
+		res.write(JSON.stringify(data))
+		res.end()
+	},
+	function(code){
+		res.writeHead(code)
+		res.end()
+	})
+	
+}
+
+async function getMany(args, callback, err){
+	
 	var MAXRETURNEDRECORDS = 200
 	
-	var sorting = req.params.sorting
-	
 	var limit;
-	if (req.query.limit != undefined){
+	if (args.limit != undefined){
 		limit = Math.min(parseInt(req.query.limit), MAXRETURNEDRECORDS)
 	}else{
 		limit = 50;
@@ -18,22 +50,20 @@ async function handleGetMany(req, res){
 		limit = 50;
 	}
 	
-	// Build up the search query
 	var search = {}
-	if ('answered' in req.query){
-		if (req.query.answered == "no"){
+	if ('answered' in args){
+		if (args.answered == "no"){
 			search['answers'] = {$size: 0}
-		}else if (req.query.answered == "yes"){
+		}else if (args.answered == "yes"){
 			search['answers'] = {$not : {$size: 0}}
 		}
 	}
 	
 	mongo.getDB().collection('questions').find(search).sort({date: -1}).limit(limit).toArray(function(err, doc){
 		if (err){
-			res.writeHead(500)
-			res.end()
+			err()
 		}else{
-			if (req.query.answers == "true"){
+			if (args.answers == "true"){
 				
 				var allAnswerIDs = [];
 				for (var i = 0; i < doc.length; i++){
@@ -49,81 +79,65 @@ async function handleGetMany(req, res){
 						answers[results[i].parent].push(results[i])
 						
 					}
-					
 					for (var i = 0; i < doc.length; i++){
 						doc[i].answers = answers[doc[i]._id] ? answers[doc[i]._id] : [];
 					}
 					
-					res.writeHead(200)
-					res.write(JSON.stringify(doc))
-					res.end();
+					callback(doc)
 				})
 			}else{
-				res.writeHead(200)
-				res.write(JSON.stringify(doc))
-				res.end();
+				callback(doc);
 			}
 		}
 	})
 }
 
-async function handleGetSingle(req, res){
-	
-	var id = req.params.id
+async function getSingle(id, args, callback, err){
 	
 	try {
 		var convertedID = mongo.makeObjectID(id)
 	} catch(e){
 		// If we get here, the ID is invalid
-		res.writeHead(400)
-		res.end()
+		err(400)
 		return
 	}
 
-	if (req.params.type == 'q'){
+	if (args.type == 'q'){
 		mongo.getDB().collection('questions').findOne({'_id': convertedID}, function(err, doc){
 			if (doc){
 				// Check if we want to load answers
-				if (req.query.answers == "true"){
+				if (args.answers == "true"){
 					
 					mongo.getDB().collection('answers').find({'_id' : {'$in': doc.answers}}).toArray(function(err, results){
 						
 						doc.answers = results
 						
-						res.writeHead(200)
-						res.write(JSON.stringify(doc))
-						res.end()
+						callback(doc)
 					})
 					
 				}else{
-					res.writeHead(200)
-					res.write(JSON.stringify(doc))
-					res.end()
+					callback(doc)
 				}
 			}else{
-				res.writeHead(404)
-				res.end()
+				err(404)
 			}
 		})
-	}else if (req.params.type == 'a'){
+	}else if (args.type == 'a'){
 		mongo.getDB().collection('answers').findOne({'_id': convertedID}, function(err, doc){
 			if (doc){
-				res.writeHead(200)
-				res.write(JSON.stringify(doc))
-				res.end()
+				callback(doc)
 			}else{
-				res.writeHead(404)
-				res.end()
+				err(404)
 			}
 		})
 	}else{
-		res.writeHead(400)
-		res.end()
+		err(400)
 	}
-	
 }
 
 module.exports = {
 	handleGetSingle: handleGetSingle,
-	handleGetMany: handleGetMany
+	handleGetMany: handleGetMany,
+	getMany: getMany,
+	getSingle: getSingle
 }
