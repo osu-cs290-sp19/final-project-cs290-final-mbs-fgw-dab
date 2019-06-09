@@ -20,14 +20,15 @@
     <header>
       <h1 class="title">Pizza</h1>
 
-      <nav class="menubar hidde">
+      <nav class="menubar">
         <ul class="menulist">
-		<li class="menuitemyeslogin hidden">
+		<li class="menuitemyeslogin">
+		<div class="whoami">
 			<p>Logged in as </p>
-			<p>{{client}}</p>
+		</div>
 		</li>
-          <li class="menuitemyeslogin hidden"><button type="button" class="askbutton">Ask A Question</button></li>
-          <li class="menuitemyeslogin hidden"><button type="button" class="logoutbutton">Logout</button></li>
+          <li class="menuitemyeslogin"><button type="button" class="askbutton">Ask A Question</button></li>
+          <li class="menuitemyeslogin"><button type="button" class="logoutbutton">Logout</button></li>
           <li class="menuitemnologin"><button type="button" class="loginbutton">Login</button></li>
           <li class="menuitemnologin"><button type="button" class="createbutton">Create Account</button></li>
           <li class="menusearch">
@@ -39,7 +40,7 @@
     </header>
 
 
-        <main class="questionbox">
+      <main class="questionbox">
 
       <article class="question">
           <div class="questioncontent">
@@ -80,6 +81,7 @@
     </main>
     
       <div id="windowbg" class="hidden"></div>
+
       <div id="windowmain" class="hidden">
         <div class="windowdialog">
   
@@ -99,7 +101,6 @@
         </div>
       </div>
 
-      <div id="createwindowbg" class="hidden"></div>
       <div id="createwindowmain" class="hidden">
         <div class="windowdialog">
           <div class="windowhead">
@@ -122,7 +123,6 @@
         </div>
       </div>
 
-      <div id="loginwindowbg" class="hidden"></div>
       <div id="loginwindowmain" class="hidden">
         <div class="windowdialog">
           <div class="windowhead">
@@ -143,6 +143,25 @@
             <button type="button" class="windowsubmit">Submit</button>
           </div>
         </div>
+</div>
+
+      <div id="answerwindowmain" class="hidden">
+        <div class="windowdialog">
+          <div class="windowhead">
+            <h3>Login</h3>
+          </div>
+          <div class="windowtext">
+            <div class="windowinputelement">
+              <label for="answerwindowtext">Reply</label>
+              <textarea id="answerwindowtext"></textarea>
+            </div>
+          </div>
+          <div class="windowfoot">
+            <button type="button" class="windowcancel">Cancel</button>
+            <button type="button" class="windowsubmit">Submit</button>
+          </div>
+        </div>
+
 </div>
 
     </body>
