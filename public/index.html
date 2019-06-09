@@ -20,14 +20,14 @@
     <header>
       <h1 class="title">Pizza</h1>
 
-      <nav class="menubar">
+      <nav class="menubar hidde">
         <ul class="menulist">
 		<li class="menuitemyeslogin hidden">
 			<p>Logged in as </p>
 			<p>{{client}}</p>
 		</li>
           <li class="menuitemyeslogin hidden"><button type="button" class="askbutton">Ask A Question</button></li>
-	  <li class="menuitemyeslogin hidden"><button type="button" class="logoutbutton">Logout</button></li>
+          <li class="menuitemyeslogin hidden"><button type="button" class="logoutbutton">Logout</button></li>
           <li class="menuitemnologin"><button type="button" class="loginbutton">Login</button></li>
           <li class="menuitemnologin"><button type="button" class="createbutton">Create Account</button></li>
           <li class="menusearch">
@@ -38,7 +38,8 @@
       </nav>
     </header>
 
-    <main class="questionbox">
+
+        <main class="questionbox">
 
       <article class="question">
           <div class="questioncontent">
@@ -49,16 +50,19 @@
             The Pizza Team
           </p>
 	    <button type="button" class="windowanswer">Answer</button>
-        </div>
+        
 
 		<article class="tag">
 		<div class="tagcontent">
+		<p class="tagprefix">
+		Tags:
+		</p>
 		<p class="tagtext">
-			welcome
+		welcome
 		</p>
 		</div>
 		</article>
-
+		<hr>
 		<article class="reply">
 		<div class="replycontent">
 		<p class="replytext">
@@ -69,6 +73,7 @@
 		</p>
 		</div>
 		</article>
+		</div>
 			
       </article>
 
@@ -86,10 +91,6 @@
               <label for="windowtext">Question</label>
               <textarea id="windowtext"></textarea>
             </div>
-	    <div class="windowinputelement">
-		<label for="windowtags">Tags</label>
-		<textarea id="windowtags"></textarea>
-	    </div>
           </div>
           <div class="windowfoot">
             <button type="button" class="windowcancel">Cancel</button>
@@ -142,7 +143,7 @@
             <button type="button" class="windowsubmit">Submit</button>
           </div>
         </div>
-      </div>
+</div>
 
     </body>
 
