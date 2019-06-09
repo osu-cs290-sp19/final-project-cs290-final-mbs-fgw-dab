@@ -14,12 +14,18 @@ var getHandlers = require('./scripts/gethandlers')
 var postHandlers = require('./scripts/posthandlers')
 var db = require('./scripts/mongodb')
 
+var handlebarsExpress = require('express-handlebars')
+
 var HTTPPORT = 80
 var HTTPSPORT = 443
 
 var database;
 
 var app = express();
+
+app.engine('handlebars', handlebarsExpress())
+app.set('view engine', 'handlebars')
+app.locals.layout = 'main'
 
 app.use(cookieParser())
 app.use(bodyParser.json())
@@ -60,6 +66,10 @@ app.get('/get/:sorting', function(req, res){
 
 app.get('/get/:type/:id', function(req, res){
 	getHandlers.handleGetSingle(req, res)
+})
+
+app.get('/', function(req, res){
+	res.status(200).render('pagetemplate', {})
 })
 
 // This section highly based on stackoverflow post:
