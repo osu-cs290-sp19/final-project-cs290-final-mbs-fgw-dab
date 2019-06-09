@@ -29,6 +29,7 @@ async function handleGetSingle(req, res){
 		res.end()
 	},
 	function(code){
+		console.log("Error code: " + code)
 		res.writeHead(code)
 		res.end()
 	})
@@ -92,13 +93,13 @@ async function getMany(args, callback, err){
 	})
 }
 
-async function getSingle(id, args, callback, err){
+async function getSingle(id, args, callback, error){
 	
 	try {
 		var convertedID = mongo.makeObjectID(id)
 	} catch(e){
 		// If we get here, the ID is invalid
-		err(400)
+		error(400)
 		return
 	}
 
@@ -119,7 +120,7 @@ async function getSingle(id, args, callback, err){
 					callback(doc)
 				}
 			}else{
-				err(404)
+				error(404)
 			}
 		})
 	}else if (args.type == 'a'){
@@ -127,11 +128,11 @@ async function getSingle(id, args, callback, err){
 			if (doc){
 				callback(doc)
 			}else{
-				err(404)
+				error(404)
 			}
 		})
 	}else{
-		err(400)
+		error(400)
 	}
 }
 
