@@ -31,7 +31,6 @@ a {
   background-color: #f09c67;
   color: #CCFBFE;
   text-align: center;
-  z-index: 3;
 }
 
 .menubar {
@@ -39,7 +38,6 @@ a {
   width: 16%;
   position: fixed;
   display: block;
-  z-index: 1;
   left: 0;
   background-color: #4c8492;
   overflow-x: hidden;
@@ -234,27 +232,37 @@ a:focus {
   background-color: rgba(0, 0, 0, 0.85);
 }
 
-#windowbg {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.85);
-}
-
-#windowbg {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.85);
-}
-
 #windowmain {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1010;
+  overflow: scroll;
+}
+
+#createwindowmain {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1010;
+  overflow: scroll;
+}
+
+#loginwindowmain {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1010;
+  overflow: scroll;
+}
+
+#answerwindowmain {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -266,12 +274,6 @@ a:focus {
 
 .hidden {
   display: none;
-}
-
-.loginwindowmain{
-  position: fixed;
-  left: 30%;
-  top: 30%;	
 }
 
 .windowdialog {
