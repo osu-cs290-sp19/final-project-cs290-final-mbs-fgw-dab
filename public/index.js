@@ -16,6 +16,8 @@ var passwordInput = document.getElementById('loginwindowpassword');
 var usernameCreate = document.getElementById('createwindowusername');
 var passwordCreate = document.getElementById('createwindowpassword');
 
+var loggedOptions = document.getElementsByClassName('menuitemyeslogin');
+
 loginButtons[0].addEventListener('click', openLoginModal);
 loginButtons[1].addEventListener('click', openCreateModal);
 loginSubmit[1].addEventListener('click', submitCreateModal);
@@ -36,6 +38,9 @@ function submitLoginModal(){
 
 function processLoginModal(){
   alert("Login Successful");
+  for(var i = 0; i < loggedOptions.length; i++){
+    loggedOptions[i].classList.remove("hidden");
+  }
 }
 
 function errorLoginModal(){
