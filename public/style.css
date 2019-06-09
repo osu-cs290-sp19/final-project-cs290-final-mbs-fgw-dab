@@ -31,6 +31,7 @@ a {
   background-color: #f09c67;
   color: #CCFBFE;
   text-align: center;
+  z-index: 999;
 }
 
 .menubar {
