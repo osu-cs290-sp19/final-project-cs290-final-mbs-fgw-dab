@@ -155,6 +155,7 @@ function closeQuestionModal(){
 
 function searchAll(){
   //Tags, Names, Contents
+  resetSearch();
   var authors = document.getElementsByClassName('questionauthor');
   var questions = document.getElementsByClassName('questiontext');
   var articles = document.getElementsByClassName('question');
@@ -162,11 +163,14 @@ function searchAll(){
 
   for(var i = 0; i < articles.length; i++){
     if(!questions[i].innerText.includes(inputSearch.value) && !authors[i].innerText.includes(inputSearch.value)){
-        articles[i].classList.add("hidden");
+        articles[i].classList.add("searchhidden");
     }
   }
 }
 
 function resetSearch(){
-
+  var resSearch = document.getElementsByClassName('searchhidden');
+  for(var i = 0; i < resSearch.length; i++){
+    resSearch[i].classList.remove('searchhidden');
+  }
 }
