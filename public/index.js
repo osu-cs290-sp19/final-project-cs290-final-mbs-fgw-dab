@@ -25,6 +25,8 @@ var questionInput = document.getElementById('windowtext');
 var loggedOptions = document.getElementsByClassName('menuitemyeslogin');
 var logoutOptions = document.getElementsByClassName('menuitemnologin');
 
+var itemSearch = document.querySelector('input[type="text"]')
+
 window.onload = function(){
   if(isUserLoggedIn()){
     for(var i = 0; i < loggedOptions.length; i++){
@@ -36,6 +38,7 @@ window.onload = function(){
   }
 };
 
+itemSearch.addEventListener('input', searchAll);
 askQuestion[0].addEventListener('click', openQuestionModal);
 loginButtons[0].addEventListener('click', openLoginModal);
 loginButtons[1].addEventListener('click', openCreateModal);
@@ -148,4 +151,22 @@ function submitQuestionModal(){
 function closeQuestionModal(){
   // loginModal.classList.add("hidden");
   questionModal.classList.add("hidden");
+}
+
+function searchAll(){
+  //Tags, Names, Contents
+  var authors = document.getElementsByClassName('questionauthor');
+  var questions = document.getElementsByClassName('questiontext');
+  var articles = document.getElementsByClassName('question');
+  var inputSearch = document.getElementById('menusearchtext');
+
+  for(var i = 0; i < articles.length; i++){
+    if(!questions[i].innerText.includes(inputSearch.value) && !authors[i].innerText.includes(inputSearch.value)){
+        articles[i].classList.add("hidden");
+    }
+  }
+}
+
+function resetSearch(){
+
 }
