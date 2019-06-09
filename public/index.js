@@ -20,8 +20,11 @@ var loggedOptions = document.getElementsByClassName('menuitemyeslogin');
 
 loginButtons[0].addEventListener('click', openLoginModal);
 loginButtons[1].addEventListener('click', openCreateModal);
+loginClose[0].addEventListener('click', closeCreateModal);
+loginClose[1].addEventListener('click', closeLoginModal);
 loginSubmit[1].addEventListener('click', submitCreateModal);
 loginSubmit[2].addEventListener('click', submitLoginModal);
+
 
 function openLoginModal(){
   loginModal.classList.remove("hidden");
@@ -74,5 +77,6 @@ function errorCreateModal(){
 }
 
 function closeCreateModal(){
-
+  createModal.classList.add("hidden");
+  createMain.classList.add("hidden");
 }
