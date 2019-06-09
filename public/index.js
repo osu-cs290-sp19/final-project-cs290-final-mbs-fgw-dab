@@ -25,6 +25,17 @@ var questionInput = document.getElementById('windowtext');
 var loggedOptions = document.getElementsByClassName('menuitemyeslogin');
 var logoutOptions = document.getElementsByClassName('menuitemnologin');
 
+window.onload = function(){
+  if(isUserLoggedIn()){
+    for(var i = 0; i < loggedOptions.length; i++){
+      loggedOptions[i].classList.remove("hidden");
+    }
+    for(var i = 0; i < logoutOptions.length; i++){
+      logoutOptions[i].classList.add("hidden");
+    }
+  }
+};
+
 askQuestion[0].addEventListener('click', openQuestionModal);
 loginButtons[0].addEventListener('click', openLoginModal);
 loginButtons[1].addEventListener('click', openCreateModal);
@@ -130,6 +141,8 @@ function submitQuestionModal(){
     contentType: 'application/json',
     data: JSON.stringify(body)
   });
+
+  location.reload(true);
 }
 
 function closeQuestionModal(){
