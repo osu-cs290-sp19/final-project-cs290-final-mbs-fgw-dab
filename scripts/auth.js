@@ -15,6 +15,14 @@ function validUsername(username){
 	if (username.length < 3) return false;
 	
 	return true;
+
+}
+
+function validPassword(password){
+	if (password.length > 3) return true;
+	
+	return false;
+
 }
 
 async function newUser(username, passwordHash, callback){
@@ -168,7 +176,7 @@ async function loginUser(req, res){
 						
 							res.cookie("userID", userID.toString(), {secure: true, expires: session.expires, path: '/'});
 							res.cookie("username", username, {secure: true, expires: session.expires, path: '/'})
-							res.cookie("token", session.token, {secure: true, expires: session.expires, path: '/'});
+							res.cookie("token", session.token, {secure: true, expires: session.expires, path: '/', httpOnly: true});
 							res.writeHead(200);
 							res.end();
 							
@@ -215,7 +223,7 @@ async function signupUser(req, res){
 	
 		var usernameUsed = user != undefined;
 		
-		if (usernameUsed || !validUsername(username)){
+		if (usernameUsed || !validUsername(username) || !validPassword(password)){
 			res.writeHead(409)
 			res.end();
 		}else{
