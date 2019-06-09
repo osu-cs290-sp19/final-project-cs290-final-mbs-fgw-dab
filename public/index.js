@@ -114,7 +114,7 @@ function submitLogout(){
   for(var i = 0; i < logoutOptions.length; i++){
     logoutOptions[i].classList.remove("hidden");
   }
-  logoutUser;
+  logoutUser();
 }
 
 function openQuestionModal(){
