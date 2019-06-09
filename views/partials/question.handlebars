@@ -9,12 +9,12 @@
 	    <button type="button" class="windowanswer" data-question-id="{{_id}}">Answer</button>
 
 		<br></br>
-		<div class="tagcontent">
-			<span>Tags:</span>
+		<div class="tag">
+			<span class="tagprefix">Tags:</span>
 			<span class="taglist">
 				{{#each tags}}
 					{{#if this}}
-					<span class="tag">
+					<span class="tagtext">
 						{{this}}
 					</span>
 					{{/if}}

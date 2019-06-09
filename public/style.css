@@ -277,6 +277,10 @@ a:focus {
   display: none;
 }
 
+.searchhidden {
+  display: none;
+}
+
 .windowdialog {
   width: auto;
   max-width: 600px;
@@ -362,5 +366,4 @@ a:focus {
 	padding: 0;
 	margin: 0;
 	margin-left: 5px;
-	font-weight: bold;
 }
