@@ -35,8 +35,16 @@
 		</div>
 
       </article>
+	  
+	  <div id='questionholder'>
 
-      {{body}}
+			{{#each this}}
+				{{#if author}}
+					{{> question this}}
+				{{/if}}
+			{{/each}}
+
+		</div>
 
     </main>
 
@@ -124,12 +132,3 @@
 
 </div>
 
-<div id='questionholder'>
-
-	{{#each this}}
-		{{#if author}}
-			{{> question this}}
-		{{/if}}
-	{{/each}}
-
-</div>
