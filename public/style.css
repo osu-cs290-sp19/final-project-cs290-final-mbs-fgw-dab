@@ -352,3 +352,12 @@ a:focus {
 .windowfoot .windowsubmit:hover {
   background-color: #087dde;
 }
+
+.tag{
+	list-style-type: none;
+	display: inline;
+	padding: 0;
+	margin: 0;
+	margin-left: 5px;
+	font-weight: bold;
+}

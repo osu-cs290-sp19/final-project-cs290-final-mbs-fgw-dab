@@ -6,15 +6,21 @@
           <p class="questionauthor">
             {{username}}
           </p>
-	    <button type="button" class="windowanswer">Answer</button>
+	    <button type="button" class="windowanswer" data-question-id="{{_id}}">Answer</button>
 
-		<article class="tag">
+		<br></br>
 		<div class="tagcontent">
-		<p class="tagtext">
-			{{tags}}
-		</p>
+			<span>Tags:</span>
+			<span class="taglist">
+				{{#each tags}}
+					{{#if this}}
+					<span class="tag">
+						{{this}}
+					</span>
+					{{/if}}
+				{{/each}}
+			</span>
 		</div>
-		</article>
 			
       </article>
 
