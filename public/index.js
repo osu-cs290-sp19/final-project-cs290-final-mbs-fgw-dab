@@ -5,8 +5,10 @@ var hiddenElems = document.getElementsByClassName('hidden');
 var loginModal = document.getElementById('loginwindowbg');
 var loginMain = document.getElementById('loginwindowmain');
 var loginButtons = document.getElementsByClassName('menuitemnologin');
-var loginClose = document.getElementsByClassName('windowscancel');
+var loginClose = document.getElementsByClassName('windowcancel');
 var loginSubmit = document.getElementsByClassName('windowsubmit');
+
+var logout = document.getElementsByClassName('logoutbutton');
 
 var createModal = document.getElementById('createwindowbg');
 var createMain = document.getElementById('createwindowmain');
@@ -20,10 +22,11 @@ var loggedOptions = document.getElementsByClassName('menuitemyeslogin');
 
 loginButtons[0].addEventListener('click', openLoginModal);
 loginButtons[1].addEventListener('click', openCreateModal);
-loginClose[0].addEventListener('click', closeCreateModal);
-loginClose[1].addEventListener('click', closeLoginModal);
+loginClose[1].addEventListener('click', closeCreateModal);
+loginClose[2].addEventListener('click', closeLoginModal);
 loginSubmit[1].addEventListener('click', submitCreateModal);
 loginSubmit[2].addEventListener('click', submitLoginModal);
+logout[0].addEventListener('click',submitLogout);
 
 
 function openLoginModal(){
@@ -79,4 +82,11 @@ function errorCreateModal(){
 function closeCreateModal(){
   createModal.classList.add("hidden");
   createMain.classList.add("hidden");
+}
+
+function submitLogout(){
+  alert("Logged Out");
+  for(var i = 0; i < loggedOptions.length; i++){
+    loggedOptions[i].classList.add("hidden");
+  }
 }
