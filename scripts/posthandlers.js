@@ -5,6 +5,7 @@ async function handleNew(req, res){
 	var type = req.params.type
 	
 	if (res.locals.userID == -1 || !('author' in req.body) || req.body.author != res.locals.userID){
+		
 		res.writeHead(401)
 		res.end()
 

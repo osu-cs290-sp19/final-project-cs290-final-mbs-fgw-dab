@@ -1,3 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Pizza</title>
+    <link rel="stylesheet" href="style.css" media="screen">
+    <script src="index.js" charset="utf-8" defer></script>
+	
+	
+	<!-- Required to use authentication functions -->
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+	<script src="/clientauth.js" charset="utf-8"></script>
+	
+  </head>
+
+  <body>
+
+    <header>
+      <h1 class="title">Pizza</h1>
+
+      <nav class="menubar">
+        <ul class="menulist">
+		<li class="menuitemyeslogin hidden">
+		<div class="whoami">
+			<p>Logged in as </p>
+		</div>
+		</li>
+          <li class="menuitemyeslogin hidden"><button type="button" class="askbutton">Ask A Question</button></li>
+          <li class="menuitemyeslogin hidden"><button type="button" class="logoutbutton">Logout</button></li>
+          <li class="menuitemnologin"><button type="button" class="loginbutton">Login</button></li>
+          <li class="menuitemnologin"><button type="button" class="createbutton">Create Account</button></li>
+          <li class="menusearch">
+            <input type="text" id="menusearchtext" placeholder="Search Questions...">
+            <button type="button" id="menusearchbutton"><i class="fas fa-search"></i></button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+
       <main class="questionbox">
 
       <article class="question">
@@ -9,7 +51,7 @@
             The Pizza Team
           </p>
 	    <button type="button" class="windowanswer">Answer</button>
-
+        
 
 		<article class="tag">
 		<div class="tagcontent">
@@ -33,18 +75,16 @@
 		</div>
 		</article>
 		</div>
-
+			
       </article>
 
-      {{body}}
-
     </main>
-
+    
       <div id="windowbg" class="hidden"></div>
 
       <div id="windowmain" class="hidden">
         <div class="windowdialog">
-
+  
           <div class="windowhead">
             <h3>Ask A Question</h3>
           </div>
@@ -124,12 +164,6 @@
 
 </div>
 
-<div id='questionholder'>
+    </body>
 
-	{{#each this}}
-		{{#if author}}
-			{{> question this}}
-		{{/if}}
-	{{/each}}
-
-</div>
+</html>

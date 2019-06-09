@@ -69,7 +69,11 @@ app.get('/get/:type/:id', function(req, res){
 })
 
 app.get('/', function(req, res){
-	res.status(200).render('pagetemplate', {})
+	getHandlers.getMany({}, function(results){
+		res.status(200).render('home', results)
+	},function(code){
+		res.status(code).send();
+	})
 })
 
 // This section highly based on stackoverflow post:
