@@ -19,6 +19,11 @@ a {
 }
 
 .title {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 70px;
   margin: 0;
   padding: 10px 20px;
   font-size: 60px;
@@ -26,18 +31,20 @@ a {
   background-color: #f09c67;
   color: #CCFBFE;
   text-align: center;
+  z-index: 3;
 }
 
 .menubar {
   height: 100%;
   width: 16%;
   position: fixed;
-  display: flex;
+  display: block;
   z-index: 1;
   left: 0;
   background-color: #4c8492;
   overflow-x: hidden;
-  padding-top: 10px;
+  padding-top: 100px;
+  top: 0px;
 }
 
 .menulist {
@@ -168,6 +175,7 @@ a:focus {
 }
 
 .questionbox {
+  padding-top: 100px;
   margin: 50px 20%;
   display: flex;
   flex-wrap: wrap;
