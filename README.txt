@@ -10,7 +10,12 @@ Update 5 June:
 -I can go over all this in more detail tomorrow.
 ~Deven
 
-Adding Contents to Index JS! Hope this can be functional ASAP - Faaiq
+Adding Contents to Index JS! Hope this can be functional ASAP
+- Login Functionality is In!
+- Modals all Work
+- Working on templating
+- Searching to Come Soon!
+~ Faaiq
 
 Important note from Matthew:
 To use the client-side portion of the authentication code, these includes are required in the header
