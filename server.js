@@ -69,7 +69,7 @@ app.get('/get/:type/:id', function(req, res){
 })
 
 app.get('/', function(req, res){
-	getHandlers.getMany({}, function(results){
+	getHandlers.getMany({answers: 'true'}, function(results){
 		res.status(200).render('home', results)
 	},function(code){
 		res.status(code).send();
