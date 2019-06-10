@@ -29,7 +29,7 @@ a {
   font-size: 60px;
   font-weight: 100;
   background-color: #f09c67;
-  color: #CCFBFE;
+  color: #4c8492;
   text-align: center;
   z-index: 999;
 }
@@ -96,6 +96,7 @@ a:focus {
   background-color: #f09c67;
   border: none;
   color: #fffde8;
+  width: 175px;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
@@ -113,6 +114,7 @@ a:focus {
   background-color: #f09c67;
   border: none;
   color: #fffde8;
+  width: 175px;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
@@ -129,6 +131,7 @@ a:focus {
 .logoutbutton {
   background-color: #f09c67;
   color: #fffde8;
+  width: 175px;
   border: none;
   padding: 15px 32px;
   text-align: center;
@@ -147,6 +150,7 @@ a:focus {
   background-color: #f09c67;
   border: none;
   color: #fffde8;
+  width: 175px;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
@@ -164,11 +168,11 @@ a:focus {
   background-color: #f09c67;
   border: none;
   color: #fffde8;
-  padding: 10px 25px;
+  padding: 8px 18px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
 }
 
@@ -180,30 +184,11 @@ a:focus {
   outline: none;
 }
 
-#menusearchbutton {
-  margin-left: -5px;
-  font-size: 16px;
-  background: none;
-  border: none;
-  color: #343434;
-  cursor: pointer;
-}
-
-#menusearchbutton:hover {
-  color: #319df6;
-}
-
-#menusearchbutton:focus {
-  color: #319df6;
-  outline: none;
-}
-
 .questionbox {
   padding-top: 100px;
   margin: 50px 20%;
   display: flex;
   flex-wrap: wrap;
-  flex-align: stretch;
   flex-grow: 1;
   flex-direction: column;
 }
@@ -250,6 +235,23 @@ a:focus {
   text-align: left;
   font-weight: bold;
 }
+
+.questioncontent .tag .taglist .tagtext .taglink{
+  background-color: #f09c67;
+  border: none;
+  color: #fffde8;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.questioncontent .tag .taglist .tagtext .taglink:hover{
+    background-color: #e8e1ef;
+  }
+
 
 .questioncontent .replycontent .replyauthor {
   margin-top: 8px;
