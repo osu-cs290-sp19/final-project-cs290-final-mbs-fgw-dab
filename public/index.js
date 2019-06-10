@@ -69,7 +69,7 @@ for(var i = 0; i < answerButton.length; i++){
 
 var pizzaTags = document.getElementsByClassName('taglink');
 for (var i = 0; i < pizzaTags.length; i++){
-  pizzaTags[i].addEventListener('click', function(){ tagSearch(i) });
+  pizzaTags[i].addEventListener('click', function(event){ tagSearch(event) });
 }
 // pizzaTags[0].addEventListener('click', tagSearch);
 
@@ -205,10 +205,10 @@ function resetSearch(){
   }
 }
 
-function tagSearch(index){
-  console.log(index);
+function tagSearch(event){
+  var tagText = event.target.innerText
   var inputSearch = document.getElementById('menusearchtext');
-  inputSearch.value = pizzaTags[index-1].innerText;
+  inputSearch.value = tagText
   console.log(inputSearch.value);
   searchAll();
 }
