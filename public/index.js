@@ -189,15 +189,35 @@ function closeQuestionModal(){
 function searchAll(){
   //Tags, Names, Contents
   resetSearch();
-  var authors = document.getElementsByClassName('questionauthor');
-  var questions = document.getElementsByClassName('questiontext');
   var articles = document.getElementsByClassName('question');
-  var inputSearch = document.getElementById('menusearchtext');
+  var inputSearch = document.getElementById('menusearchtext').value.toLowerCase()
 
   for(var i = 0; i < articles.length; i++){
-    if(!questions[i].innerText.includes(inputSearch.value) && !authors[i].innerText.includes(inputSearch.value)){
-        articles[i].classList.add("searchhidden");
-    }
+    articles[i].classList.add("searchhidden");
+	
+	var content = articles[i].getElementsByClassName('questioncontent')[0]
+	var author = content.getElementsByClassName('questionauthor')[0].innerText
+	var text = content.getElementsByClassName('questiontext')[0].innerText
+	
+    if(text.toLowerCase().includes(inputSearch) || author.toLowerCase().includes(inputSearch)){
+      articles[i].classList.remove("searchhidden");
+    }else{
+		var tags = articles[i].getElementsByClassName('questioncontent')[0].getElementsByClassName('tag')[0].getElementsByClassName('taglist')[0].childNodes;
+		
+		console.log(tags)
+		
+		for (var j = 0; j < tags.length; j++){
+			if (tags[j].nodeType == 1){
+				
+				var tag = tags[j].getElementsByClassName('taglink')[0]
+				console.log(tag)
+				
+				if (tag.innerText.toLowerCase() == inputSearch){
+				  articles[i].classList.remove("searchhidden");
+				}
+			}
+		}
+	}
   }
   // for(var i = 0; i < pizzaTags.length; i++){
   //   if(pizzaTags[i].innerText.includes(inputSearch.value)){
