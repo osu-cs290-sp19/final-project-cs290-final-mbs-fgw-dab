@@ -193,6 +193,16 @@ a:focus {
   background-color: #fffde8;
 }
 
+.staticquestion {
+  flex: 0 1 28%;
+  display: flex;
+  margin: 2px;
+  padding: 20px;
+  border: 1px solid #dadada;
+  border-radius: 2px;
+  background-color: #fffde8;
+}
+
 .questioncontent {
   flex: 1 1 80%;
   margin-left: 10px;
