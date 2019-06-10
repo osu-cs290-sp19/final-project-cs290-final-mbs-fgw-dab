@@ -258,7 +258,7 @@ function tagSearch(event){
 function openAnswerModal(event){
   answerModal.classList.remove("hidden");
   background.classList.remove("hidden");
-  saveElement = event.target.id
+  saveElement = event.target.getAttribute('data-question-id')
 }
 
 function submitAnswerModal(){
