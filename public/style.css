@@ -92,63 +92,88 @@ a:focus {
   font-style: italic;
 }
 
-.loginbutton {	
+.loginbutton {
   background-color: #f09c67;
   border: none;
-  color: white;
+  color: #fffde8;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.loginbutton:hover {
+  background-color: #e8e1ef;
 }
 
 .askbutton {
   background-color: #f09c67;
   border: none;
-  color: white;
+  color: #fffde8;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.askbutton:hover {
+  background-color: #e8e1ef;
 }
 
 .logoutbutton {
   background-color: #f09c67;
+  color: #fffde8;
   border: none;
-  color: white;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.logoutbutton:hover{
+  background-color: #e8e1ef;
 }
 
 .createbutton {
   background-color: #f09c67;
   border: none;
-  color: white;
+  color: #fffde8;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.createbutton:hover{
+  background-color: #e8e1ef;
 }
 
 .windowanswer {
   background-color: #f09c67;
   border: none;
-  color: white;
+  color: #fffde8;
   padding: 10px 25px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  cursor: pointer;
+}
+
+.windowanswer:hover{
+  background-color: #e8e1ef;
 }
 
 #menusearchtext:focus {
@@ -297,8 +322,7 @@ a:focus {
   min-width: 350px;
   min-height: 300px;
   margin: 40px auto;
-  background-color: #fff;
-  border-radius: 15px;
+  background-color: #f7e0a3;
 }
 
 .windowhead {
@@ -308,7 +332,9 @@ a:focus {
 
 .windowhead h3 {
   margin: 0;
+  margin-top: 5px;
   font-size: 28px;
+  text-align: center;
 }
 
 .windowtext {
@@ -333,6 +359,7 @@ a:focus {
   flex: 6 200px;
   padding: 8px;
   font-size: 20px;
+  background-color: #fffde8;
   border: 1px solid #aaa;
 }
 
@@ -342,32 +369,35 @@ a:focus {
 
 .windowfoot {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   padding: 10px 10px 20px 10px;
 }
 
 .windowfoot button {
-  font-size: 20px;
-  background-color: #fff;
+  font-size: 16px;
   color: #333;
-  border: 1px solid #333;
-  border-radius: 5px;
+  border: none;
   padding: 10px;
   margin-right: 20px;
   cursor: pointer;
 }
 
+.windowfoot .windowcancel {
+  background-color: #f09c67;
+  color: #fffde8;
+}
+
 .windowfoot .windowcancel:hover {
-  background-color: #eee;
+  background-color: #e8e1ef;
 }
 
 .windowfoot .windowsubmit {
-  background-color: #319df6;
-  color: #fff;
+  background-color: #f09c67;
+  color: #fffde8;
 }
 
 .windowfoot .windowsubmit:hover {
-  background-color: #087dde;
+  background-color: #e8e1ef;
 }
 
 .tag{
