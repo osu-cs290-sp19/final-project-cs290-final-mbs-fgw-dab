@@ -190,7 +190,7 @@ function searchAll(){
   //Tags, Names, Contents
   resetSearch();
   var articles = document.getElementsByClassName('question');
-  var inputSearch = document.getElementById('menusearchtext').value
+  var inputSearch = document.getElementById('menusearchtext').value.toLowerCase()
 
   for(var i = 0; i < articles.length; i++){
     articles[i].classList.add("searchhidden");
@@ -199,7 +199,7 @@ function searchAll(){
 	var author = content.getElementsByClassName('questionauthor')[0].innerText
 	var text = content.getElementsByClassName('questiontext')[0].innerText
 	
-    if(text.includes(inputSearch) || author.includes(inputSearch)){
+    if(text.toLowerCase().includes(inputSearch) || author.toLowerCase().includes(inputSearch)){
       articles[i].classList.remove("searchhidden");
     }else{
 		var tags = articles[i].getElementsByClassName('questioncontent')[0].getElementsByClassName('tag')[0].getElementsByClassName('taglist')[0].childNodes;
@@ -212,7 +212,7 @@ function searchAll(){
 				var tag = tags[j].getElementsByClassName('taglink')[0]
 				console.log(tag)
 				
-				if (tag.innerText == inputSearch){
+				if (tag.innerText.toLowerCase() == inputSearch){
 				  articles[i].classList.remove("searchhidden");
 				}
 			}
