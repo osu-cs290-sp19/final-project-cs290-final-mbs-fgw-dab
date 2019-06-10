@@ -2,7 +2,7 @@
 //Faaiq WAQAR
 var hiddenElems = document.getElementsByClassName('hidden');
 
-var loginModal = document.getElementById('windowbg');
+var background = document.getElementById('windowbg');
 var loginMain = document.getElementById('loginwindowmain');
 var loginButtons = document.getElementsByClassName('menuitemnologin');
 var loginClose = document.getElementsByClassName('windowcancel');
@@ -64,7 +64,7 @@ answerCancel[0].addEventListener('click', closeAnswerModal);
 answerSend[0].addEventListener('click', submitAnswerModal);
 logout[0].addEventListener('click',submitLogout);
 for(var i = 0; i < answerButton.length; i++){
-  answerButton[i].addEventListener('click', openAnswerModal);
+  answerButton[i].addEventListener('click', function(event){ openAnswerModal(event)});
 }
 
 var pizzaTags = document.getElementsByClassName('taglink');
@@ -76,6 +76,7 @@ for (var i = 0; i < pizzaTags.length; i++){
 function openLoginModal(){
   // loginModal.classList.remove("hidden");
   loginMain.classList.remove("hidden");
+  background.classList.remove("hidden");
 }
 
 function submitLoginModal(){
@@ -84,6 +85,7 @@ function submitLoginModal(){
   loginUser(inUsername,inPassword,processLoginModal,errorLoginModal);
   // loginModal.classList.add("hidden");
   loginMain.classList.add("hidden");
+  background.classList.add("hidden");
 }
 
 function processLoginModal(){
@@ -102,12 +104,14 @@ function errorLoginModal(){
 
 function closeLoginModal(){
   // loginModal.classList.add("hidden");
+  background.classList.add("hidden");
   loginMain.classList.add("hidden");
 }
 
 function openCreateModal(){
   // createModal.classList.remove("hidden");
   createMain.classList.remove("hidden");
+  background.classList.remove("hidden");
 }
 
 function submitCreateModal(){
@@ -115,6 +119,7 @@ function submitCreateModal(){
   var crPassword = passwordCreate.value;
   signupUser(crUsername,crPassword,processCreateModal,errorCreateModal);
   // createModal.classList.add("hidden");
+  background.classList.add("hidden");
   createMain.classList.add("hidden");
 }
 
@@ -129,6 +134,7 @@ function errorCreateModal(){
 function closeCreateModal(){
   // createModal.classList.add("hidden");
   createMain.classList.add("hidden");
+  background.classList.add("hidden");
 }
 
 function submitLogout(){
@@ -145,11 +151,13 @@ function submitLogout(){
 function openQuestionModal(){
   // loginModal.classList.remove("hidden");
   questionModal.classList.remove("hidden");
+  background.classList.remove("hidden");
 }
 
 function submitQuestionModal(){
   // loginModal.classList.add("hidden");
   questionModal.classList.add("hidden");
+  background.classList.add("hidden");
   var str = tagInput.value;
   var tags = str.split(" ");
   var question = questionInput.value;
@@ -175,6 +183,7 @@ function submitQuestionModal(){
 function closeQuestionModal(){
   // loginModal.classList.add("hidden");
   questionModal.classList.add("hidden");
+  background.classList.add("hidden");
 }
 
 function searchAll(){
@@ -215,6 +224,7 @@ function tagSearch(event){
 
 function openAnswerModal(){
   answerModal.classList.remove("hidden");
+  background.classList.remove("hidden");
 }
 
 function submitAnswerModal(){
@@ -242,4 +252,5 @@ function submitAnswerModal(){
 
 function closeAnswerModal(){
 answerModal.classList.add("hidden");
+background.classList.add("hidden");
 }
