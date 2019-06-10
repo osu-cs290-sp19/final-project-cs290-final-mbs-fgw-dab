@@ -21,11 +21,23 @@ var passwordInput = document.getElementById('loginwindowpassword');
 var usernameCreate = document.getElementById('createwindowusername');
 var passwordCreate = document.getElementById('createwindowpassword');
 var questionInput = document.getElementById('windowtext');
+var tagInput = document.getElementById('windowtags');
 
 var loggedOptions = document.getElementsByClassName('menuitemyeslogin');
 var logoutOptions = document.getElementsByClassName('menuitemnologin');
 
-var itemSearch = document.querySelector('input[type="text"]')
+var itemSearch = document.querySelector('input[type="text"]');
+
+var createCancel = document.getElementsByClassName('createwindowcancel');
+var createSend = document.getElementsByClassName('createwindowsubmit');
+var loginCancel = document.getElementsByClassName('loginwindowcancel');
+var loginSend = document.getElementsByClassName('loginwindowsubmit');
+var questionCancel = document.getElementsByClassName('windowcancel');
+var questionSend = document.getElementsByClassName('windowsubmit');
+var answerCancel = document.getElementsByClassName('answerwindowcancel');
+var answerSend = document.getElementsByClassName('answerwindowsubmit');
+var answerModal = document.getElementById('answerwindowmain');
+var answerButton = document.getElementsByClassName('windowanswer');
 
 window.onload = function(){
   if(isUserLoggedIn()){
@@ -42,14 +54,24 @@ itemSearch.addEventListener('input', searchAll);
 askQuestion[0].addEventListener('click', openQuestionModal);
 loginButtons[0].addEventListener('click', openLoginModal);
 loginButtons[1].addEventListener('click', openCreateModal);
-loginClose[0].addEventListener('click', closeQuestionModal);
-loginClose[1].addEventListener('click', closeCreateModal);
-loginClose[2].addEventListener('click', closeLoginModal);
-loginSubmit[0].addEventListener('click', submitQuestionModal);
-loginSubmit[1].addEventListener('click', submitCreateModal);
-loginSubmit[2].addEventListener('click', submitLoginModal);
+questionCancel[0].addEventListener('click', closeQuestionModal);
+createCancel[0].addEventListener('click', closeCreateModal);
+loginCancel[0].addEventListener('click', closeLoginModal);
+questionSend[0].addEventListener('click', submitQuestionModal);
+createSend[0].addEventListener('click', submitCreateModal);
+loginSend[0].addEventListener('click', submitLoginModal);
+answerCancel[0].addEventListener('click', closeAnswerModal);
+answerSend[0].addEventListener('click', submitAnswerModal);
 logout[0].addEventListener('click',submitLogout);
+for(var i = 0; i < answerButton.length; i++){
+  answerButton[i].addEventListener('click', openAnswerModal);
+}
 
+var pizzaTags = document.getElementsByClassName('taglink');
+for (var i = 0; i < pizzaTags.length; i++){
+  pizzaTags[i].addEventListener('click', function(){ tagSearch(i) });
+}
+// pizzaTags[0].addEventListener('click', tagSearch);
 
 function openLoginModal(){
   // loginModal.classList.remove("hidden");
@@ -128,6 +150,8 @@ function openQuestionModal(){
 function submitQuestionModal(){
   // loginModal.classList.add("hidden");
   questionModal.classList.add("hidden");
+  var str = tagInput.value;
+  var tags = str.split(" ");
   var question = questionInput.value;
   var author = getUserID();
   console.log(author);
@@ -136,7 +160,7 @@ function submitQuestionModal(){
   body.author = author;
   body.text = question;
   body.title = "";
-  body.tags = [];
+  body.tags = tags;
 
   $.ajax({
     type: "POST",
@@ -166,11 +190,56 @@ function searchAll(){
         articles[i].classList.add("searchhidden");
     }
   }
+  // for(var i = 0; i < pizzaTags.length; i++){
+  //   if(pizzaTags[i].innerText.includes(inputSearch.value)){
+  //     articles[i].classList.remove("searchhidden");
+  //
+  //   }
 }
 
 function resetSearch(){
   var resSearch = document.getElementsByClassName('searchhidden');
   for(var i = 0; i < resSearch.length; i++){
     resSearch[i].classList.remove('searchhidden');
+    i--;
   }
+}
+
+function tagSearch(index){
+  console.log(index);
+  var inputSearch = document.getElementById('menusearchtext');
+  inputSearch.value = pizzaTags[index-1].innerText;
+  console.log(inputSearch.value);
+  searchAll();
+}
+
+function openAnswerModal(){
+  answerModal.classList.remove("hidden");
+}
+
+function submitAnswerModal(){
+  // loginModal.classList.add("hidden");
+  // questionModal.classList.add("hidden");
+  // var str = tagInput.value;
+  // var tags = str.split(" ");
+  // var question = questionInput.value;
+  // var author = getUserID();
+  // console.log(author);
+  //
+  // var body = {};
+  // body.author = author;
+  // body.text = question;
+  // body.title = "";
+  // body.tags = tags;
+  //
+  // $.ajax({
+  //   type: "POST",
+  //   url: "/new/question",
+  //   contentType: 'application/json',
+  //   data: JSON.stringify(body)
+  // });
+}
+
+function closeAnswerModal(){
+answerModal.classList.add("hidden");
 }
