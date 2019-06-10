@@ -13,13 +13,18 @@
 			<span class="tagprefix">Tags:</span>
 			<span class="taglist">
 				{{#each tags}}
-				{{#if this}}
-				<span class="tagtext">
-					<button type="button" class="taglink">{{this}}</button>
-				</span>
-				{{/if}}
+					{{#if this}}
+					<span class="tagtext">
+						<button type="button" class="taglink">{{this}}</button>
+					</span>
+					{{/if}}
 				{{/each}}
 			</span>
 		</div>
 	</div>
+	{{#each answers}}
+		{{#if this}}
+			{{> replies this}}
+		{{/if}}
+	{{/each}}
 </article>
