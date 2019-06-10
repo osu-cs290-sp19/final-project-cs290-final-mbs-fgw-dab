@@ -1,27 +1,25 @@
-      <article class="question">
-          <div class="questioncontent">
-          <p class="questiontext">
-            {{text}}
-          </p>
-          <p class="questionauthor">
-            {{username}}
-          </p>
-	    <button type="button" class="windowanswer" data-question-id="{{_id}}">Answer</button>
+<article class="question">
+	<div class="questioncontent">
+		<p class="questiontext">
+		{{text}}
+		</p>
+		<p class="questionauthor">
+		{{username}}
+		</p>
+		<button type="button" class="windowanswer" data-question-id="{{_id}}">Answer</button>
 
 		<br></br>
 		<div class="tag">
 			<span class="tagprefix">Tags:</span>
 			<span class="taglist">
 				{{#each tags}}
-					{{#if this}}
-					<span class="tagtext">
-						<button type="button" class="taglink">{{this}}</button>
-					</span>
-					{{/if}}
+				{{#if this}}
+				<span class="tagtext">
+					<button type="button" class="taglink">{{this}}</button>
+				</span>
+				{{/if}}
 				{{/each}}
 			</span>
 		</div>
-			
-      </article>
-
 	</div>
+</article>
