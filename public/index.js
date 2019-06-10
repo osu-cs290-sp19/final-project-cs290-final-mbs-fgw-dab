@@ -1,5 +1,6 @@
 //Adding More Code Below
 //Faaiq WAQAR
+var saveElement;
 var hiddenElems = document.getElementsByClassName('hidden');
 
 var background = document.getElementById('windowbg');
@@ -86,6 +87,8 @@ function submitLoginModal(){
   // loginModal.classList.add("hidden");
   loginMain.classList.add("hidden");
   background.classList.add("hidden");
+  usernameInput.value = "";
+  passwordInput.value = "";
 }
 
 function processLoginModal(){
@@ -106,6 +109,8 @@ function closeLoginModal(){
   // loginModal.classList.add("hidden");
   background.classList.add("hidden");
   loginMain.classList.add("hidden");
+  usernameInput.value = "";
+  passwordInput.value = "";
 }
 
 function openCreateModal(){
@@ -121,6 +126,8 @@ function submitCreateModal(){
   // createModal.classList.add("hidden");
   background.classList.add("hidden");
   createMain.classList.add("hidden");
+  usernameCreate.value = "";
+  passwordCreate.value = "";
 }
 
 function processCreateModal(){
@@ -135,6 +142,8 @@ function closeCreateModal(){
   // createModal.classList.add("hidden");
   createMain.classList.add("hidden");
   background.classList.add("hidden");
+  usernameCreate.value = "";
+  passwordCreate.value = "";
 }
 
 function submitLogout(){
@@ -163,6 +172,8 @@ function submitQuestionModal(){
   var question = questionInput.value;
   var author = getUserID();
   console.log(author);
+  tagInput.value = "";
+  questionInpu.value = "";
 
   var body = {};
   body.author = author;
@@ -184,34 +195,36 @@ function closeQuestionModal(){
   // loginModal.classList.add("hidden");
   questionModal.classList.add("hidden");
   background.classList.add("hidden");
+  tagInput.value = "";
+  questionInpu.value = "";
 }
 
 function searchAll(){
   //Tags, Names, Contents
   resetSearch();
   var articles = document.getElementsByClassName('question');
-  var inputSearch = document.getElementById('menusearchtext').value.toLowerCase()
+  var inputSearch = document.getElementById('menusearchtext').value.toLowerCase();
 
   for(var i = 0; i < articles.length; i++){
     articles[i].classList.add("searchhidden");
-	
+
 	var content = articles[i].getElementsByClassName('questioncontent')[0]
 	var author = content.getElementsByClassName('questionauthor')[0].innerText
 	var text = content.getElementsByClassName('questiontext')[0].innerText
-	
+
     if(text.toLowerCase().includes(inputSearch) || author.toLowerCase().includes(inputSearch)){
       articles[i].classList.remove("searchhidden");
     }else{
 		var tags = articles[i].getElementsByClassName('questioncontent')[0].getElementsByClassName('tag')[0].getElementsByClassName('taglist')[0].childNodes;
-		
+
 		console.log(tags)
-		
+
 		for (var j = 0; j < tags.length; j++){
 			if (tags[j].nodeType == 1){
-				
+
 				var tag = tags[j].getElementsByClassName('taglink')[0]
 				console.log(tag)
-				
+
 				if (tag.innerText.toLowerCase() == inputSearch){
 				  articles[i].classList.remove("searchhidden");
 				}
@@ -242,35 +255,44 @@ function tagSearch(event){
   searchAll();
 }
 
-function openAnswerModal(){
+function openAnswerModal(event){
   answerModal.classList.remove("hidden");
   background.classList.remove("hidden");
+  saveElement = event.target.id
 }
 
 function submitAnswerModal(){
+  answerModal.classList.add("hidden");
+  background.classList.add("hidden");
+  var reply = document.getElementById('answerwindowtext');
+  var response = reply.value;
+  reply.value = "";
   // loginModal.classList.add("hidden");
   // questionModal.classList.add("hidden");
   // var str = tagInput.value;
   // var tags = str.split(" ");
   // var question = questionInput.value;
-  // var author = getUserID();
+  var author = getUserID();
   // console.log(author);
   //
-  // var body = {};
-  // body.author = author;
-  // body.text = question;
+  var body = {};
+  body.author = author;
+  body.text = response;
+  body.parent = saveElement;
   // body.title = "";
   // body.tags = tags;
   //
-  // $.ajax({
-  //   type: "POST",
-  //   url: "/new/question",
-  //   contentType: 'application/json',
-  //   data: JSON.stringify(body)
-  // });
+  $.ajax({
+    type: "POST",
+    url: "/new/answer",
+    contentType: 'application/json',
+    data: JSON.stringify(body)
+  });
 }
 
 function closeAnswerModal(){
-answerModal.classList.add("hidden");
-background.classList.add("hidden");
+  var reply = document.getElementById('answerwindowtext');
+  answerModal.classList.add("hidden");
+  background.classList.add("hidden");
+  reply.value = "";
 }
