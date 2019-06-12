@@ -48,6 +48,7 @@ window.onload = function(){
     for(var i = 0; i < logoutOptions.length; i++){
       logoutOptions[i].classList.add("hidden");
     }
+	document.getElementById("whoami").innerHTML = 'Logged in as ' + getUsername()
   }
 };
 
@@ -99,6 +100,7 @@ function processLoginModal(){
   for(var i = 0; i < logoutOptions.length; i++){
     logoutOptions[i].classList.add("hidden");
   }
+  document.getElementById("whoami").innerHTML = 'Logged in as ' + getUsername()
 }
 
 function errorLoginModal(){
@@ -154,7 +156,8 @@ function submitLogout(){
   for(var i = 0; i < logoutOptions.length; i++){
     logoutOptions[i].classList.remove("hidden");
   }
-  logoutUser();
+  document.getElementById("whoami").innerHTML = 'Not logged in'
+  logoutUser(function(){});
 }
 
 function openQuestionModal(){
@@ -173,12 +176,12 @@ function submitQuestionModal(){
   var author = getUserID();
   console.log(author);
   tagInput.value = "";
-  questionInpu.value = "";
+  questionInput.value = "";
 
   var body = {};
   body.author = author;
   body.text = question;
-  body.title = "";
+  body.title = document.getElementById("newquestiontitle").value;
   body.tags = tags;
 
   $.ajax({
@@ -211,8 +214,9 @@ function searchAll(){
 	var content = articles[i].getElementsByClassName('questioncontent')[0]
 	var author = content.getElementsByClassName('questionauthor')[0].innerText
 	var text = content.getElementsByClassName('questiontext')[0].innerText
+	var title = content.getElementsByClassName('questiontitle')[0].innerText
 
-    if(text.toLowerCase().includes(inputSearch) || author.toLowerCase().includes(inputSearch)){
+    if(title.toLowerCase().includes(inputSearch) || text.toLowerCase().includes(inputSearch) || author.toLowerCase().includes(inputSearch)){
       articles[i].classList.remove("searchhidden");
     }else{
 		var tags = articles[i].getElementsByClassName('questioncontent')[0].getElementsByClassName('tag')[0].getElementsByClassName('taglist')[0].childNodes;
@@ -286,7 +290,10 @@ function submitAnswerModal(){
     type: "POST",
     url: "/new/answer",
     contentType: 'application/json',
-    data: JSON.stringify(body)
+    data: JSON.stringify(body),
+	success: function(){
+		location.reload(true)
+	}
   });
 }
 
@@ -295,4 +302,8 @@ function closeAnswerModal(){
   answerModal.classList.add("hidden");
   background.classList.add("hidden");
   reply.value = "";
+}
+
+function goToHomepage(){
+	window.location = '/'
 }

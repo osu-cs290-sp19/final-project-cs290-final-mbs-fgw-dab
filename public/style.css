@@ -194,8 +194,7 @@ a:focus {
 }
 
 .question {
-  flex: 0 1 28%;
-  display: flex;
+  display: block;
   margin: 2px;
   padding: 20px;
   border: 1px solid #dadada;
@@ -408,4 +407,31 @@ a:focus {
 	padding: 0;
 	margin: 0;
 	margin-left: 5px;
+}
+
+.questiontitle{
+	font-weight: bold;
+	font-size: 24px;
+	margin-bottom: 10px;
+}
+
+.reply {
+  display: block;
+  margin: 2px;
+  padding: 20px;
+  border: 1px solid #dadada;
+  border-radius: 2px;
+  background-color: #fffde8;
+  padding-left: 25px;
+}
+
+.reply .replyauthor {
+  margin-top: 8px;
+  margin-bottom: 15px;
+  text-align: left;
+  font-weight: bold;
+}
+
+.questiontext{
+	padding-left: 20px;
 }

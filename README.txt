@@ -30,3 +30,13 @@ Note about MongoDB
 
 To run the server now that it depends on MongoDB, you need to have the mongodb server running
 in the background. You shouldn't need to do any setup besides starting the mongodb server
+
+
+From Matthew:
+
+I made some changes to the layout of the webpage; for example, there is now a seperate page for questions to reduce the business of the main page
+
+In addition, I added CSS to answers, made the Pizza title a link to the homepage, and added titles to questions
+
+Click on the title of a question to access the question's page
+'

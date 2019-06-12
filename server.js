@@ -76,6 +76,15 @@ app.get('/', function(req, res){
 	})
 })
 
+app.get('/:type/:id', function(req, res){
+	getHandlers.getSingle(req.params.id, {type: req.params.type, answers: 'true'}, function(result){
+		result.showanswers = true;
+		res.status(200).render('question', result)
+	},function(code){
+		res.status(code).send();
+	})
+})
+
 // This section highly based on stackoverflow post:
 // https://stackoverflow.com/questions/7450940/automatic-https-connection-redirect-with-node-js-express
 var httpApp = express()

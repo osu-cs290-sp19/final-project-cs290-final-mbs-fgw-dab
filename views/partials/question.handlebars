@@ -1,14 +1,24 @@
 <article class="question">
 	<div class="questioncontent">
-		<p class="questiontext">
-		{{text}}
-		</p>
-		<p class="questionauthor">
-		{{username}}
-		</p>
-		<button type="button" class="windowanswer" data-question-id="{{_id}}">Answer</button>
-
+		<a class="questiontitle" href="/q/{{_id}}">
+		{{title}}
+		</a>
 		<br></br>
+		{{#if showanswers}}
+			<br> </br>
+			<p class="questiontext">
+			{{text}}
+			</p>
+			<br> </br>
+		{{else}}
+			<p hidden class="questiontext">
+			{{text}}
+			</p>
+		{{/if}}
+		{{#if showanswers}}
+		<button type="button" class="windowanswer" data-question-id="{{_id}}">Answer</button>
+		<br></br>
+		{{/if}}
 		<div class="tag">
 			<span class="tagprefix">Tags:</span>
 			<span class="taglist">
@@ -21,10 +31,17 @@
 				{{/each}}
 			</span>
 		</div>
+		<p class="questionauthor">
+		{{username}}
+		</p>
 	</div>
-	{{#each answers}}
-		{{#if this}}
-			{{> replies this}}
-		{{/if}}
-	{{/each}}
 </article>
+{{#if showanswers}}
+	<div class="answers">
+		{{#each answers}}
+			{{#if this}}
+				{{> replies this}}
+			{{/if}}
+		{{/each}}
+	</div>
+{{/if}}
