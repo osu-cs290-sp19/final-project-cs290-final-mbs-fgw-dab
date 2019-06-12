@@ -13,8 +13,15 @@ var auth = require('./scripts/auth')
 var getHandlers = require('./scripts/gethandlers')
 var postHandlers = require('./scripts/posthandlers')
 var db = require('./scripts/mongodb')
+var helpers = require('./scripts/helpers')
 
 var handlebarsExpress = require('express-handlebars')
+
+var handlebarsEngine = handlebarsExpress.create({
+	helpers: {
+		breaklines: helpers.breakLines
+	}
+})
 
 var HTTPPORT = 80
 var HTTPSPORT = 443
@@ -23,7 +30,7 @@ var database;
 
 var app = express();
 
-app.engine('handlebars', handlebarsExpress())
+app.engine('handlebars', handlebarsEngine.engine)
 app.set('view engine', 'handlebars')
 app.locals.layout = 'main'
 

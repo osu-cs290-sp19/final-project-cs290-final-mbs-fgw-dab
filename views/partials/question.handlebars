@@ -6,14 +6,14 @@
 		<br></br>
 		{{#if showanswers}}
 			<br> </br>
-			<p class="questiontext">
-			{{text}}
-			</p>
+			<div class="questiontext">
+			{{breaklines text}}
+			</div>
 			<br> </br>
 		{{else}}
-			<p hidden class="questiontext">
-			{{text}}
-			</p>
+			<div hidden class="questiontext">
+			{{breaklines text}}
+			</div>
 		{{/if}}
 		{{#if showanswers}}
 		<button type="button" class="windowanswer" data-question-id="{{_id}}">Answer</button>
