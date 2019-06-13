@@ -47,7 +47,7 @@ a {
 }
 
 .menulist {
-  margin: 0 0 0 20px;
+  margin: 0px 0px 0px 0px;
   padding: 0;
   list-style: none;
   text-align: center;
@@ -73,8 +73,6 @@ a:focus {
 
 
 .menusearch {
-  float: right;
-  margin-right: 20px;
   padding: 0;
   line-height: 38px;
   display: inline-block;
@@ -86,18 +84,20 @@ a:focus {
   background-color: #fffde8;
   border: 1px solid #dadada;
   border-radius: 2px;
+  width: 90%;
+  padding: 5% 5%;
 }
 
 .whoami {
   font-style: italic;
 }
 
-.loginbutton {
+.menubarbutton{
   background-color: #f09c67;
   border: none;
   color: #fffde8;
-  width: 175px;
-  padding: 15px 32px;
+  width: 80%;
+  padding: 10% 10%;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -106,62 +106,8 @@ a:focus {
   cursor: pointer;
 }
 
-.loginbutton:hover {
-  background-color: #e8e1ef;
-}
-
-.askbutton {
-  background-color: #f09c67;
-  border: none;
-  color: #fffde8;
-  width: 175px;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin-bottom: 10px;
-  cursor: pointer;
-}
-
-.askbutton:hover {
-  background-color: #e8e1ef;
-}
-
-.logoutbutton {
-  background-color: #f09c67;
-  color: #fffde8;
-  width: 175px;
-  border: none;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin-bottom: 10px;
-  cursor: pointer;
-}
-
-.logoutbutton:hover{
-  background-color: #e8e1ef;
-}
-
-.createbutton {
-  background-color: #f09c67;
-  border: none;
-  color: #fffde8;
-  width: 175px;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin-bottom: 10px;
-  cursor: pointer;
-}
-
-.createbutton:hover{
-  background-color: #e8e1ef;
+.menubarbutton:hover{
+  background-color: #e8elef;
 }
 
 .windowanswer {
