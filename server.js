@@ -19,7 +19,9 @@ var handlebarsExpress = require('express-handlebars')
 
 var handlebarsEngine = handlebarsExpress.create({
 	helpers: {
-		breaklines: helpers.breakLines
+		breaklines: helpers.breakLines,
+		arrayLength : helpers.arrayLength,
+		notEmpty: helpers.notEmpty
 	}
 })
 
@@ -88,8 +90,14 @@ app.get('/:type/:id', function(req, res){
 		result.showanswers = true;
 		res.status(200).render('question', result)
 	},function(code){
-		res.status(code).send();
+		res.status(code).render('error', {code: code});
 	})
+})
+
+// Send error page if the GET request is bad
+
+app.get('*', function(req, res){
+	res.status(404).render('error', {code: 404});
 })
 
 // This section highly based on stackoverflow post:

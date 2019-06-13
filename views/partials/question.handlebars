@@ -31,9 +31,17 @@
 				{{/each}}
 			</span>
 		</div>
-		<p class="questionauthor">
-		{{username}}
-		</p>
+		<br><br>
+		<span class="questionauthor">
+			{{username}}
+		</span>
+		{{#unless showanswers}}
+			{{#notEmpty answers}}
+				<span class="answeredstatus"> {{arrayLength answers}} answers </span>
+			{{else}}
+				<span class="answeredstatus"> Unanswered </span>
+			{{/notEmpty}}
+		{{/unless}}
 	</div>
 </article>
 {{#if showanswers}}

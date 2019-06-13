@@ -435,3 +435,20 @@ a:focus {
 .questiontext{
 	padding-left: 20px;
 }
+
+.errorpage{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -300px;
+	height: 600px;
+	width: 600px;
+}
+
+.answeredstatus{
+	float: right;
+	font-weight: bold;
+	margin-top: 8px;
+	margin-bottom: 15px;
+}
