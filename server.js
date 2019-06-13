@@ -88,6 +88,7 @@ app.get('/', function(req, res){
 app.get('/:type/:id', function(req, res){
 	getHandlers.getSingle(req.params.id, {type: req.params.type, answers: 'true'}, function(result){
 		result.showanswers = true;
+		result.questionpage = true;
 		res.status(200).render('question', result)
 	},function(code){
 		res.status(code).render('error', {code: code});

@@ -33,9 +33,11 @@
           <li class="menuitemyeslogin hidden"><button type="button" class="logoutbutton menubarbutton">Logout</button></li>
           <li class="menuitemnologin"><button type="button" class="loginbutton menubarbutton">Login</button></li>
           <li class="menuitemnologin"><button type="button" class="createbutton menubarbutton">Create Account</button></li>
+		  {{#unless questionpage}}
           <li class="menusearch">
             <input type="text" id="menusearchtext" placeholder="Search Questions...">
           </li>
+		  {{/unless}}
         </ul>
       </nav>
     </header>
