@@ -27,7 +27,7 @@ var tagInput = document.getElementById('windowtags');
 var loggedOptions = document.getElementsByClassName('menuitemyeslogin');
 var logoutOptions = document.getElementsByClassName('menuitemnologin');
 
-var itemSearch = document.querySelector('input[type="text"]');
+var itemSearch = document.getElementById('menusearchtext')
 
 var createCancel = document.getElementsByClassName('createwindowcancel');
 var createSend = document.getElementsByClassName('createwindowsubmit');
@@ -52,7 +52,9 @@ window.onload = function(){
   }
 };
 
-itemSearch.addEventListener('input', searchAll);
+if (itemSearch != undefined){
+	itemSearch.addEventListener('input', searchAll);
+}
 askQuestion[0].addEventListener('click', openQuestionModal);
 loginButtons[0].addEventListener('click', openLoginModal);
 loginButtons[1].addEventListener('click', openCreateModal);

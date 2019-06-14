@@ -181,7 +181,7 @@ a:focus {
   font-weight: bold;
 }
 
-.questioncontent .tag .taglist .tagtext .taglink{
+.taglink{
   background-color: #f09c67;
   border: none;
   color: #fffde8;
@@ -193,7 +193,7 @@ a:focus {
   cursor: pointer;
 }
 
-.questioncontent .tag .taglist .tagtext .taglink:hover{
+.taglink:hover{
     background-color: #e8e1ef;
   }
 
