@@ -190,10 +190,10 @@ function submitQuestionModal(){
     type: "POST",
     url: "/new/question",
     contentType: 'application/json',
-    data: JSON.stringify(body)
+    data: JSON.stringify(body),
+    success: function() { location.reload(true) }
   });
 
-  location.reload(true);
 }
 
 function closeQuestionModal(){
@@ -262,9 +262,14 @@ function tagSearch(event){
 }
 
 function openAnswerModal(event){
-  answerModal.classList.remove("hidden");
-  background.classList.remove("hidden");
-  saveElement = event.target.getAttribute('data-question-id')
+  if(isUserLoggedIn()){
+    answerModal.classList.remove("hidden");
+    background.classList.remove("hidden");
+    saveElement = event.target.getAttribute('data-question-id');
+  }
+  else{
+    alert("Please Sign In");
+  }
 }
 
 function submitAnswerModal(){
@@ -300,10 +305,10 @@ function submitAnswerModal(){
 }
 
 function closeAnswerModal(){
-  var reply = document.getElementById('answerwindowtext');
-  answerModal.classList.add("hidden");
-  background.classList.add("hidden");
-  reply.value = "";
+    var reply = document.getElementById('answerwindowtext');
+    answerModal.classList.add("hidden");
+    background.classList.add("hidden");
+    reply.value = "";
 }
 
 function goToHomepage(){
